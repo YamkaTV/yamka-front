@@ -1,0 +1,36 @@
+.homeContainer {
+    max-width: 655px;
+    margin: 0 auto;
+
+    .main {
+        place-content: center;
+        height: 100vh;
+    }
+
+    .bigLogo {
+        display: flex;
+        justify-content: center;
+    }
+
+    .titleLogo {
+        font-size: 128px;
+        font-weight: 700;
+        text-align: center;
+        line-height: 0.7;
+    }
+
+    .search {
+        margin-top: 45px;
+    }
+
+    nav {
+        margin-right: 20px;
+        margin-top: 25px;
+        gap: 25px !important;
+        justify-content: center;
+    }
+}
+
+.noMargin {
+    margin: 0;
+}

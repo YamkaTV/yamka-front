@@ -1,0 +1,17 @@
+.block {
+    width: 100%;
+    background-color: var(--block);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+
+    @media (max-width: 768px) {
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+}
+
+.mainAccent {
+    color: var(--main);
+}

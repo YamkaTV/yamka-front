@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Аниме</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+
+    <link rel="icon" href="/favicon/favicon.ico" sizes="any" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" sizes="180x180" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <meta name="apple-mobile-web-app-title" content="YamkaTV" />
+</head>
+
+<body>
+<div class="container">
+    <header class="header">
+        <div class="logoBig">
+            <a href="/public"><img src="../assets/ColorLogo.svg" alt="Логотип" width="278" height="75"></a>
+        </div>
+        <div class="logoMini">
+            <a href="/public"><img src="../assets/logoMini.svg" alt="Логотип" width="75" height="75"></a>
+        </div>
+
+        <div class="search headerSearch" >
+            <input type="text" aria-label="Поиск по сайту" id="search-input" placeholder="Поиск..." oninput="toggleSearchButton()">
+        </div>
+
+        <nav>
+            <button onclick="window.location.href='/anime/random'">Случайное</button>
+            <button>История</button>
+        </nav>
+    </header>
+
+    <main class="main">
+        <div class="block animeBlock">
+            <img src="../assets/poster.png" class="poster" id="animePoster" alt="Постер аниме">
+            <div class="info">
+                <h1 id="animeTitle"><a id="animeLink" class="title" target="_blank">Название</a></h1>
+                <div class="ratingBlock">
+                    <svg class="star" viewBox="0 0 20 20" preserveAspectRatio="xMidYMid meet" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#a)"><path d="M13.6 5.71 11.3.84A1.45 1.45 0 0 0 10 0c-.27 0-.53.08-.76.23a1.4 1.4 0 0 0-.53.6L6.4 5.73l-5.15.77a1.4 1.4 0 0 0-.73.34 1.54 1.54 0 0 0-.08 2.23l3.74 3.81-.88 5.36A1.49 1.49 0 0 0 4.6 20c.27.02.54-.04.78-.17l4.63-2.53 4.6 2.53c.5.26 1.08.22 1.53-.12a1.52 1.52 0 0 0 .57-1.47l-.88-5.37 3.73-3.8c.4-.4.54-1 .37-1.54a1.45 1.45 0 0 0-1.17-1.03l-5.15-.78v-.01Z" fill="var(--main)"/></g>
+                        <defs>
+                            <clipPath id="a">
+                                <path fill="#fff" d="M0 0h20v20H0z"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+
+                    <div id="animeRating" class="rating">0.0</div>
+                </div>
+
+                <div id="animeDescriptionContainer">
+                    <div id="animeDescription" class="description">Описание</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="block">
+            <div class="player">
+
+            </div>
+        </div>
+    </main>
+</div>
+
+<footer class="footer">
+    <div class="content">
+        <div class="links">
+            <a href="/privacy" class="link">Политика конфиденциальности</a>
+            <a href="/terms" class="link">Условия использования</a>
+        </div>
+
+        <div class="logo">
+            <img src="../assets/GrayLogo.svg" alt="Логотип" width="278" height="75">
+        </div>
+
+        <div class="contacts">
+            <div class="text">Почта для связи: <a href="mailto:support@yamka.tv" class="email-link" title="Написать в поддержку" aria-label="Написать на support@yamka.tv">support@yamka.tv</a></div>
+            <a href="https://t.me/yamkaTV" class="link" target="_blank" rel="noopener noreferrer" aria-label="Переход в Telegram канал сайта" title="Telegram канал сайта">Новости сайта в Telegram</a>
+        </div>
+    </div>
+
+    <div class="copyright">
+        <span class="title">© 2025 <span class="brand">YamkaTV</span>. Все права защищены.</span>
+    </div>
+</footer>
+
+
+<script>
+    const anime_id = "{{ anime_id }}";
+</script>
+<script type="module" src="../js/main.js"></script>
+<noscript><div><img src="https://mc.yandex.ru/watch/101420919" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+</body>
+</html>
+
+
+

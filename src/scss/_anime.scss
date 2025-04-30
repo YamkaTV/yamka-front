@@ -1,0 +1,104 @@
+.animeBlock {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    padding: 0 !important;
+
+    .poster {
+        width: 165px;
+        aspect-ratio: var(--aspect-ratio, 2/2.75);
+        height: 100%;
+        object-fit: contain;
+        display: block;
+        user-select: none;
+        border-radius: 0;
+        transition: border-radius 0.4s ease;
+    }
+
+    .rounded,
+    .rounded2 {
+        border-bottom-right-radius: 15px;
+    }
+
+    .info {
+        width: 100%;
+        display: flex;
+        padding: 20px;
+        flex-direction: column;
+
+        h1 {
+            margin-bottom: 5px;
+        }
+
+        .description {
+            font-size: 14px;
+            font-weight: 500;
+            overflow: hidden;
+        }
+
+        .description.expanded {
+            height: auto;
+        }
+
+        .toggle-btn {
+            margin-top: 3px;
+            font-size: 14px;
+            font-weight: 500;
+            background: none;
+            border: none;
+            color: var(--text-minor);
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .toggle-btn:hover {
+            outline: none;
+            text-decoration: underline;
+        }
+
+        .ratingBlock {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            margin-bottom: 5px;
+
+            .star {
+                width: 24px;
+                height: 24px;
+                fill: var(--main);
+            }
+
+            .rating {
+                color: var(--main);
+                font-size: 26px;
+                font-weight: 700;
+                user-select: none;
+            }
+        }
+    }
+}
+
+h1.long {
+    font-size: 24px !important;
+}
+
+@media (max-width: 768px) {
+    h1, h1.long {
+        font-size: 22px !important;
+    }
+
+    .animeBlock {
+        align-items: center !important;
+        flex-direction: column !important;
+
+        .poster {
+            border-radius: 10px;
+            margin-top: 10px !important;
+        }
+
+        .info {
+            padding: 10px;
+            align-items: center;
+        }
+    }
+}
