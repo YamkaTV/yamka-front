@@ -3,6 +3,7 @@ import '../../scss/main.scss';
 import styles from './Header.module.scss';
 import ColorLogo from '../../assets/ColorLogo.svg';
 import LogoMini from '../../assets/LogoMini.svg';
+import RandomButton from '@components/ui/RandomButton.tsx';
 
 const Header: React.FC = () => {
     const toggleSearchButton = () => {
@@ -39,7 +40,7 @@ const Header: React.FC = () => {
             </div>
 
             <nav>
-                <button onClick={() => window.location.href = '/anime'}>Случайное</button>
+                <RandomButton />
                 <button onClick={() => window.location.href = '/history'}>История</button>
             </nav>
         </header>

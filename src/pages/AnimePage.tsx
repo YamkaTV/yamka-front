@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState, useRef } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 
 interface AnimeData {
     title: string;
@@ -11,28 +11,42 @@ interface AnimeData {
 
 const AnimePage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
+    const navigate = useNavigate(); // Получаем функцию для навигации
     const [animeData, setAnimeData] = useState<AnimeData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const prevIdRef = useRef<string | null>(null);
 
     useEffect(() => {
-        if (!id) return;
+        const currentId = id ?? null; // если id undefined, заменяем на null
+        if (prevIdRef.current !== currentId) {
+            prevIdRef.current = currentId;
 
-        (async () => {
-            try {
-                const response = await fetch(`https://api.yamka.tv/anime/data/${id}`);
-                if (!response.ok) throw new Error("Ошибка HTTP: " + response.status);
+            const fetchAnimeData = async () => {
+                try {
+                    const response = await fetch(`https://api.yamka.tv/anime/data/${id}`);
 
-                const data = await response.json();
-                setAnimeData(data);
-                window.dispatchEvent(new CustomEvent("animeDataLoaded", { detail: data }));
-            } catch {
-                setError("Не удалось загрузить данные.");
-            } finally {
-                setLoading(false);
-            }
-        })();
-    }, [id]);
+                    if (!response.ok) throw new Error("Ошибка HTTP: " + response.status);
+
+                    const data = await response.json();
+
+                    setAnimeData(data);
+
+                    // if (id == 'random') {
+                    //     navigate(`/anime/${data.anime_id}`, { replace: true });
+                    // }
+
+                    window.dispatchEvent(new CustomEvent("animeDataLoaded", { detail: data }));
+                } catch {
+                    setError("Не удалось загрузить данные.");
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            fetchAnimeData();
+        }
+    }, [id, navigate]);
 
     if (loading) return <div className="block">Загрузка…</div>;
     if (error || !animeData) return <div className="block">{error || "Нет данных."}</div>;
