@@ -1,5 +1,6 @@
 import React from 'react';
-import styles from './Footer.module.scss'; // Импорт стилей как объекта
+import styles from './Footer.module.scss';
+import GrayLogo from '../../assets/GrayLogo.svg';
 
 const FooterModule: React.FC = () => {
     return (
@@ -11,7 +12,7 @@ const FooterModule: React.FC = () => {
                 </div>
 
                 <div className={styles.logo}>
-                    <img src="../../assets/GrayLogo.svg" alt="Логотип" width="278" height="75" />
+                    <img src={GrayLogo} alt="Логотип" width="278" height="75" />
                 </div>
 
                 <div className={styles.contacts}>

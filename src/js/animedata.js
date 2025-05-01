@@ -2,7 +2,7 @@
     try {
         console.log("Запрос данных аниме для ID:", anime_id);
 
-        const response = await fetch(`/anime/data/${anime_id}`);
+        const response = await fetch(`https://api.yamka.tv/anime/data/${anime_id}`);
         if (!response.ok) {
             throw new Error("Ошибка при получении данных аниме: HTTP " + response.status);
         }

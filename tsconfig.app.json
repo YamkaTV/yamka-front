@@ -23,10 +23,10 @@
     "noUncheckedSideEffectImports": true,
 
     /* Aliases */
-    "baseUrl": "./",  // Корень проекта
+    "baseUrl": "./",
     "paths": {
-      "@components/*": ["src/components/*"],  // Алиас для компонентов
-      "@images/*": ["src/assets/*"]  // Алиас для изображений
+      "@components/*": ["src/components/*"],
+      "@images/*": ["src/assets/*"]
     }
   },
   "include": [

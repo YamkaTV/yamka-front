@@ -5,9 +5,7 @@ import ColorLogo from '../../assets/ColorLogo.svg';
 import LogoMini from '../../assets/LogoMini.svg';
 
 const Header: React.FC = () => {
-    // Функция для обработки ввода в поиске
     const toggleSearchButton = () => {
-        // Логика для включения или отключения кнопки поиска
         const searchInput = document.getElementById('search-input') as HTMLInputElement;
         const searchButton = document.getElementById('search-button') as HTMLButtonElement;
         if (searchInput && searchButton) {
@@ -41,7 +39,7 @@ const Header: React.FC = () => {
             </div>
 
             <nav>
-                <button onClick={() => window.location.href = '/anime/random'}>Случайное</button>
+                <button onClick={() => window.location.href = '/anime'}>Случайное</button>
                 <button onClick={() => window.location.href = '/history'}>История</button>
             </nav>
         </header>

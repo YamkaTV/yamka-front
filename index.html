@@ -8,5 +8,46 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Yandex.Metrika (optimized for Core Web Vitals) -->
+    <script>
+      window.ym = window.ym || function () {
+        (window.ym.a = window.ym.a || []).push(arguments);
+      };
+      window.ym.l = Date.now();
+
+      function loadYandexMetrika() {
+        if (document.getElementById('ym-script')) return;
+        const script = document.createElement('script');
+        script.id = 'ym-script';
+        script.src = 'https://mc.yandex.ru/metrika/tag.js';
+        script.async = true;
+        script.onload = () => {
+          window.ym(101420919, "init", {
+            clickmap: true,
+            trackLinks: true,
+            accurateTrackBounce: true,
+            webvisor: false
+          });
+        };
+        script.onerror = () => {
+          console.warn('Yandex Metrika blocked or failed to load.');
+        };
+        document.head.appendChild(script);
+      }
+
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(loadYandexMetrika, { timeout: 3000 });
+      } else {
+        setTimeout(loadYandexMetrika, 3000);
+      }
+    </script>
+    <noscript>
+      <div>
+        <img src="https://mc.yandex.ru/watch/101420919" style="position:absolute; left:-9999px;" alt="" />
+      </div>
+    </noscript>
+    <!-- /Yandex.Metrika -->
+
   </body>
 </html>
