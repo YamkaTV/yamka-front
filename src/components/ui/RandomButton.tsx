@@ -11,13 +11,13 @@ const RandomButton: React.FC = () => {
         setIsLoading(true);
 
         try {
-            const response = await fetch('https://api.yamka.tv/anime/data/random');
+            const response = await fetch('https://api.yamka.tv/anime/random');
             if (!response.ok) throw new Error('Ошибка получения случайного аниме');
 
             const data = await response.json();
 
             // Переход на страницу с передачей данных в state
-            navigate(`/anime/${data.anime_id}`, { state: { animeData: data } });
+            navigate(`/anime/${data.anime_url}`, { state: { animeData: data } });
         } catch (err) {
             console.error('Ошибка при переходе на случайное аниме:', err);
         } finally {

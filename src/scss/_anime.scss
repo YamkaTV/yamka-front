@@ -27,6 +27,7 @@
         padding: 20px;
         flex-direction: column;
 
+
         h1 {
             margin-bottom: 5px;
         }
@@ -107,6 +108,14 @@
                 height: 24px;
                 min-height: 24px;
                 fill: var(--main);
+            }
+
+            .status {
+                color: var(--text-minor);
+                font-size: 18px;
+                font-weight: 600;
+                text-transform: capitalize;
+                margin-right: 5px;
             }
 
             .rating {

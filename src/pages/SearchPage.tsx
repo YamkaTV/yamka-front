@@ -5,6 +5,7 @@ interface AnimeItem {
     anime_title: string;
     poster_url: string;
     anime_id: number;
+    anime_url: string;
 }
 
 const SearchPage: React.FC = () => {
@@ -76,8 +77,8 @@ const SearchPage: React.FC = () => {
             {!loading && !error && results.length > 0 && (
                 <ul className="search-results">
                     {results.map((item) => (
-                        <li key={item.anime_id} className="search-result-item">
-                            <a href={`/anime/${item.anime_id}`} className="result-link">
+                        <li key={item.anime_url} className="search-result-item">
+                            <a href={`/anime/${item.anime_url}`} className="result-link">
                                 <img
                                     src={item.poster_url}
                                     alt={item.anime_title}

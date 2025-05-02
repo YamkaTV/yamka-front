@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
+import poster from '../assets/poster.png';
 
 interface AnimeData {
     title: string;
@@ -7,7 +8,9 @@ interface AnimeData {
     poster_url: string;
     description: string;
     link?: string;
-    other_titles?: string[];  // Добавьте это поле
+    other_titles?: string[]
+    anime_url: string;
+    status: string;
 }
 
 const AnimePage: React.FC = () => {
@@ -15,13 +18,15 @@ const AnimePage: React.FC = () => {
     const [animeData, setAnimeData] = useState<AnimeData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const prevIdRef = useRef<string | null>(null);
     const [isTitlesExpanded, setIsTitlesExpanded] = useState(false);
 
-    const infoElRef = useRef<HTMLDivElement | null>(null);
-    const posterElRef = useRef<HTMLImageElement | null>(null);
-    const descElRef = useRef<HTMLDivElement | null>(null);
-    const containerRef = useRef<HTMLDivElement | null>(null);
+    const prevIdRef = useRef<string | null>(null);
+    const infoElRef = useRef<HTMLDivElement>(null);
+    const posterElRef = useRef<HTMLImageElement>(null);
+    const descElRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const titleLinkRef = useRef<HTMLAnchorElement>(null);
+    const titleH1Ref = useRef<HTMLHeadingElement>(null);
 
     // Загрузка данных
     useEffect(() => {
@@ -33,7 +38,7 @@ const AnimePage: React.FC = () => {
             const fetchAnimeData = async () => {
                 try {
                     const response = await fetch(`https://api.yamka.tv/anime/data/${id}`);
-                    if (!response.ok) throw new Error("Ошибка HTTP: " + response.status);
+                    if (!response.ok) throw new Error("HTTP error: " + response.status);
 
                     const data = await response.json();
                     setAnimeData(data);
@@ -55,11 +60,10 @@ const AnimePage: React.FC = () => {
         }
     }, [animeData]);
 
-    // Управление rounded2
+    // Управление rounded классами
     useEffect(() => {
         const infoEl = infoElRef.current;
         const posterEl = posterElRef.current;
-
 
         if (infoEl && posterEl) {
             if (infoEl.offsetHeight > 230) {
@@ -71,7 +75,7 @@ const AnimePage: React.FC = () => {
         }
     }, [animeData]);
 
-    // Управление кнопкой "Развернуть/Свернуть"
+    // Управление кнопкой описания
     useEffect(() => {
         const descEl = descElRef.current;
         const container = containerRef.current;
@@ -125,6 +129,7 @@ const AnimePage: React.FC = () => {
         }
     }, [animeData]);
 
+
     if (loading) return <div className="block loading"><h2>Загрузка…</h2></div>;
     if (error || !animeData) return <div className="block loading">{error || "Нет данных."}</div>;
 
@@ -132,20 +137,21 @@ const AnimePage: React.FC = () => {
         <main className="main">
             <div className="block animeBlock">
                 <img
-                    src={animeData.poster_url || '/static/images/poster.png'}
+                    src={animeData.poster_url || poster}
                     className="poster"
                     ref={posterElRef}
                     alt="Постер аниме"
                 />
                 <div className="info" ref={infoElRef}>
-                    <h1>
+                    <h1 ref={titleH1Ref}>
                         <a
-                            href={animeData.link || `https://yani.tv/a${id}`}
+                            ref={titleLinkRef}
+                            href={animeData.link || `http://yani.tv/catalog/item/${animeData.anime_url}`}
                             className="title"
                             target="_blank"
                             rel="noreferrer"
                         >
-                            {animeData.title}
+                            {animeData.title || "Название не найдено"}
                         </a>
                     </h1>
                     <div className="ratingBlock">
@@ -156,13 +162,16 @@ const AnimePage: React.FC = () => {
                             />
                         </svg>
                         <div className="rating">{animeData.rating?.toFixed(1) || "0.0"}</div>
-                        <div
-                            className={`other-titles ${isTitlesExpanded ? 'expanded' : ''}`}
-                            onClick={() => setIsTitlesExpanded(!isTitlesExpanded)}
-                            style={{ cursor: 'pointer' }}
-                        >
-                            {animeData.other_titles?.join(" | ") || ''}
-                        </div>
+                        <div className="status">{animeData.status}</div>
+                        {animeData.other_titles?.length ? (
+                            <div
+                                className={`other-titles ${isTitlesExpanded ? 'expanded' : ''}`}
+                                onClick={() => setIsTitlesExpanded(!isTitlesExpanded)}
+                            >
+
+                                {animeData.other_titles.join(" | ")}
+                            </div>
+                        ) : null}
                     </div>
                     <div className="description" ref={descElRef}>
                         {animeData.description || "Описание не найдено"}
@@ -173,7 +182,7 @@ const AnimePage: React.FC = () => {
 
             <div className="block">
                 <div className="player">
-
+                    {/* Плеер будет здесь */}
                 </div>
             </div>
         </main>
