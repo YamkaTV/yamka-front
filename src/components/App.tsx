@@ -8,6 +8,8 @@ import SearchPage from "../pages/SearchPage";
 import TermsPage from "../pages/TermsPage";
 import HeaderModule from '@components/header/Header.module.tsx';
 import FooterModule from '@components/footer/Footer.module.tsx';
+import TopProgressBar from '@components/ui/ProgressBar';
+
 
 const App: React.FC = () => {
     const location = useLocation();
@@ -16,6 +18,7 @@ const App: React.FC = () => {
 
     return (
         <>
+            <TopProgressBar />
             {isHomePage ? (
                 <div className="container homeContainer">
                     <Routes>

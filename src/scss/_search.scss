@@ -81,3 +81,34 @@
         font-size: 14px;
     }
 }
+
+.search {
+    position: relative;
+    width: 100%;
+}
+
+.search input {
+    width: 100%;
+    padding-right: 30px; /* Пространство для кнопки */
+    padding-left: 10px;
+}
+
+.search-button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px; /* Размер иконки */
+    color: var(--main); /* Цвет иконки */
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+.search input:focus + .search-button,
+.search input:not(:placeholder-shown) + .search-button {
+    opacity: 1;
+}
+

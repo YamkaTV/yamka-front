@@ -22,6 +22,12 @@ const SearchInput: React.FC = () => {
         }
     };
 
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            handleSearch();
+        }
+    };
+
     return (
         <div className="search">
             <input
@@ -32,10 +38,15 @@ const SearchInput: React.FC = () => {
                 onFocus={handleFocus}
                 onBlur={handleBlur}
                 onChange={handleChange}
+                onKeyDown={handleKeyDown}
             />
             {showButton && (
-                <button className="search-button" onMouseDown={handleSearch}>
-                    Найти
+                <button
+                    className="search-button"
+                    onMouseDown={handleSearch}
+                    aria-label="Поиск"
+                >
+                    🔍
                 </button>
             )}
         </div>

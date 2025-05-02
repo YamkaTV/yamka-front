@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 interface AnimeData {
     title: string;
@@ -11,32 +11,29 @@ interface AnimeData {
 
 const AnimePage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
-    const navigate = useNavigate(); // Получаем функцию для навигации
     const [animeData, setAnimeData] = useState<AnimeData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const prevIdRef = useRef<string | null>(null);
 
+    const infoElRef = useRef<HTMLDivElement | null>(null);
+    const posterElRef = useRef<HTMLImageElement | null>(null);
+    const descElRef = useRef<HTMLDivElement | null>(null);
+    const containerRef = useRef<HTMLDivElement | null>(null);
+
+    // Загрузка данных
     useEffect(() => {
-        const currentId = id ?? null; // если id undefined, заменяем на null
+        const currentId = id ?? null;
         if (prevIdRef.current !== currentId) {
             prevIdRef.current = currentId;
 
             const fetchAnimeData = async () => {
                 try {
                     const response = await fetch(`https://api.yamka.tv/anime/data/${id}`);
-
                     if (!response.ok) throw new Error("Ошибка HTTP: " + response.status);
 
                     const data = await response.json();
-
                     setAnimeData(data);
-
-                    // if (id == 'random') {
-                    //     navigate(`/anime/${data.anime_id}`, { replace: true });
-                    // }
-
-                    window.dispatchEvent(new CustomEvent("animeDataLoaded", { detail: data }));
                 } catch {
                     setError("Не удалось загрузить данные.");
                 } finally {
@@ -46,7 +43,84 @@ const AnimePage: React.FC = () => {
 
             fetchAnimeData();
         }
-    }, [id, navigate]);
+    }, [id]);
+
+    // Обновление document.title
+    useEffect(() => {
+        if (animeData?.title) {
+            document.title = `${animeData.title} смотреть онлайн бесплатно на Yamka TV`;
+        }
+    }, [animeData]);
+
+    // Управление rounded2
+    useEffect(() => {
+        const infoEl = infoElRef.current;
+        const posterEl = posterElRef.current;
+
+
+        if (infoEl && posterEl) {
+            if (infoEl.offsetHeight > 230) {
+                posterEl.classList.add('rounded2');
+            } else {
+                posterEl.classList.remove('rounded2');
+                posterEl.classList.remove('rounded');
+            }
+        }
+    }, [animeData]);
+
+    // Управление кнопкой "Развернуть/Свернуть"
+    useEffect(() => {
+        const descEl = descElRef.current;
+        const container = containerRef.current;
+
+        if (!descEl || !container) return;
+
+        const existingBtn = container.querySelector(".toggle-btn");
+        if (existingBtn) existingBtn.remove();
+
+        const DEFAULT_HEIGHT = 65;
+        if (descEl.scrollHeight > DEFAULT_HEIGHT + 5) {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.textContent = "Развернуть";
+            btn.classList.add("toggle-btn");
+            container.appendChild(btn);
+
+            descEl.style.height = `${DEFAULT_HEIGHT}px`;
+            descEl.style.overflow = "hidden";
+            descEl.style.transition = "height 0.3s ease";
+
+            let expanded = false;
+
+            btn.addEventListener("click", () => {
+                if (!expanded) {
+                    descEl.style.height = `${descEl.scrollHeight}px`;
+                    btn.textContent = "Свернуть";
+
+                    if (posterElRef.current && infoElRef.current && infoElRef.current.offsetHeight > 200) {
+                        posterElRef.current.classList.add("rounded");
+                    }
+
+                    setTimeout(() => {
+                        descEl.style.height = "auto";
+                    }, 300);
+                } else {
+                    const currentHeight = descEl.scrollHeight;
+                    descEl.style.height = `${currentHeight}px`;
+                    void descEl.offsetHeight;
+
+                    descEl.style.height = `${DEFAULT_HEIGHT}px`;
+                    btn.textContent = "Развернуть";
+
+                    if (posterElRef.current) {
+                        posterElRef.current.classList.remove("rounded");
+                    }
+                }
+
+                expanded = !expanded;
+            });
+        }
+    }, [animeData]);
 
     if (loading) return <div className="block">Загрузка…</div>;
     if (error || !animeData) return <div className="block">{error || "Нет данных."}</div>;
@@ -57,9 +131,10 @@ const AnimePage: React.FC = () => {
                 <img
                     src={animeData.poster_url || '/static/images/poster.png'}
                     className="poster"
+                    ref={posterElRef}
                     alt="Постер аниме"
                 />
-                <div className="info">
+                <div className="info" ref={infoElRef}>
                     <h1>
                         <a
                             href={animeData.link || '#'}
@@ -79,12 +154,17 @@ const AnimePage: React.FC = () => {
                         </svg>
                         <div className="rating">{animeData.rating?.toFixed(1) || "0.0"}</div>
                     </div>
-                    <div className="description">{animeData.description || "Описание недоступно."}</div>
+                    <div className="description" ref={descElRef}>
+                        {animeData.description || "Описание не найдено"}
+                    </div>
+                    <div ref={containerRef} className="toggle-container"></div>
                 </div>
             </div>
 
             <div className="block">
-                <div className="player">{/* Вставь сюда компонент плеера, если нужен */}</div>
+                <div className="player">
+
+                </div>
             </div>
         </main>
     );
