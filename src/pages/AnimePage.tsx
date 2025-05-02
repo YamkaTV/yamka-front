@@ -7,6 +7,7 @@ interface AnimeData {
     poster_url: string;
     description: string;
     link?: string;
+    other_titles?: string[];  // Добавьте это поле
 }
 
 const AnimePage: React.FC = () => {
@@ -15,6 +16,7 @@ const AnimePage: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const prevIdRef = useRef<string | null>(null);
+    const [isTitlesExpanded, setIsTitlesExpanded] = useState(false);
 
     const infoElRef = useRef<HTMLDivElement | null>(null);
     const posterElRef = useRef<HTMLImageElement | null>(null);
@@ -23,6 +25,7 @@ const AnimePage: React.FC = () => {
 
     // Загрузка данных
     useEffect(() => {
+        setIsTitlesExpanded(false);
         const currentId = id ?? null;
         if (prevIdRef.current !== currentId) {
             prevIdRef.current = currentId;
@@ -137,7 +140,7 @@ const AnimePage: React.FC = () => {
                 <div className="info" ref={infoElRef}>
                     <h1>
                         <a
-                            href={animeData.link || '#'}
+                            href={animeData.link || `https://yani.tv/a${id}`}
                             className="title"
                             target="_blank"
                             rel="noreferrer"
@@ -153,6 +156,13 @@ const AnimePage: React.FC = () => {
                             />
                         </svg>
                         <div className="rating">{animeData.rating?.toFixed(1) || "0.0"}</div>
+                        <div
+                            className={`other-titles ${isTitlesExpanded ? 'expanded' : ''}`}
+                            onClick={() => setIsTitlesExpanded(!isTitlesExpanded)}
+                            style={{ cursor: 'pointer' }}
+                        >
+                            {animeData.other_titles?.join(" | ") || ''}
+                        </div>
                     </div>
                     <div className="description" ref={descElRef}>
                         {animeData.description || "Описание не найдено"}
