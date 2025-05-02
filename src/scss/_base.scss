@@ -27,6 +27,32 @@
     }
 }
 
+/* Стилизуем полоску прокрутки */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--text-minor); /* Цвет ползунка */
+    border-radius: 6px;
+    border: 2px solid var(--block); /* Легкая граница, чтобы отделить от фона */
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--block-hover); /* Цвет фона полосы прокрутки */
+}
+
+/* Горизонтальная полоска прокрутки */
+::-webkit-scrollbar-horizontal {
+    height: 6px;
+}
+
+::-webkit-scrollbar-thumb.horizontal {
+    background-color: var(--main);
+}
+
+
 *,
 *::before,
 *::after {

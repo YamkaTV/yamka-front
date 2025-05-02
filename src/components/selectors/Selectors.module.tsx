@@ -8,9 +8,10 @@ interface CustomSelectProps {
     value?: string;
     label: string;
     onChange: (value: string) => void;
+    prefix?: string;  // Новый проп для текста перед значением
 }
 
-const CustomSelect: React.FC<CustomSelectProps> = ({ options, placeholder = 'Выбрать...', value, onChange }) => {
+const CustomSelect: React.FC<CustomSelectProps> = ({ options, placeholder = 'Выбрать...', value, onChange, prefix }) => {
     const [isOpen, setIsOpen] = useState(false);
     const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -37,7 +38,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({ options, placeholder = 'В�
             <div className={styles.selectWrapper} ref={wrapperRef}>
                 <div className={styles.selectSelected} onClick={() => setIsOpen(!isOpen)}>
                     <span className={styles.selectPlaceholder}>
-                        {value || placeholder}
+                        {prefix ? `${prefix} ${value}` : value || placeholder}  {/* Отображаем prefix, если он передан */}
                     </span>
                     <span>▾</span>
                 </div>
@@ -50,7 +51,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({ options, placeholder = 'В�
                                 className={`${styles.selectItem}${option === value ? ` ${styles.selected}` : ''}`}
                                 onClick={() => handleSelect(option)}
                             >
-                                {option}
+                                {prefix ? `${prefix} ${option}` : option}  {/* Также добавляем prefix в список опций */}
                             </div>
                         ))}
                     </div>

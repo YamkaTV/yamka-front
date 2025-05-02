@@ -12,7 +12,7 @@ interface AnimeData {
     other_titles?: string[];
     anime_url: string;
     status: string;
-    anime_id: number;  // anime_id приходит из данных API
+    anime_id: number;
 }
 
 interface HistoryEntry {
@@ -22,7 +22,7 @@ interface HistoryEntry {
 }
 
 const AnimePage: React.FC = () => {
-    const { id } = useParams<{ id: string }>();  // id получаем из параметров маршрута
+    const { id } = useParams<{ id: string }>();
     const [animeData, setAnimeData] = useState<AnimeData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -79,7 +79,6 @@ const AnimePage: React.FC = () => {
 
         setSelectedIframeUrl(iframe || '');
     };
-
 
 
     // Загрузка данных о аниме
@@ -341,12 +340,13 @@ const AnimePage: React.FC = () => {
                             options={episodes}
                             value={selectedEpisode}
                             onChange={handleEpisodeChange}
+                            prefix="Серия"
                         />
                     </div>
                 )}
 
                 {selectedIframeUrl && (
-                    <div className="iframe-container">
+                    <div className="player">
                         <iframe
                             src={selectedIframeUrl}
                             title="Anime Video"

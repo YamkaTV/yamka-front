@@ -2,7 +2,6 @@
     display: flex;
     width: 100%;
     gap: 10px;
-    margin-bottom: 10px;
 }
 
 .selectWrapper {
@@ -15,7 +14,7 @@
     box-sizing: border-box;
     padding: 10px;
     background-color: var(--button);
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
@@ -36,6 +35,8 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     max-height: 200px;
     overflow-y: auto;
+    border-bottom-right-radius:  6px;
+    border-bottom-left-radius:  6px;
 }
 
 .selectItem {
@@ -65,3 +66,4 @@
         margin-bottom: 10px;
     }
 }
+
