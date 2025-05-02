@@ -1,9 +1,0 @@
-import './animedata.js';
-import './history.js';
-import './rounded.js';
-import './search.js';
-import './select.js';
-import './title.js';
-import './toggle.js';
-import './video.js';
-import './yandex-metrika.js';

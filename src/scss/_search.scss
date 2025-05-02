@@ -90,14 +90,13 @@
 .search input {
     width: 100%;
     padding-right: 30px; /* Пространство для кнопки */
-    padding-left: 10px;
+    padding-left: 15px;
 }
 
 .search-button {
     position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
+    right: 15px;
+    top: 11px;
     background: none;
     border: none;
     cursor: pointer;
