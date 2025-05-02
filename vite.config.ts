@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react';
 // Настройка для Vite
 export default defineConfig({
   plugins: [react()],
-  base: '/', // фронт доступен с корня
+  base: './', // фронт доступен с корня
   publicDir: '../template', // Указываем папку с HTML как public
   build: {
     outDir: '../dist',     // куда будет собираться фронт
