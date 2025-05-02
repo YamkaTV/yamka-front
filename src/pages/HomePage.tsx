@@ -2,6 +2,7 @@ import React from 'react';
 import BigLogo from '../assets/BigLogo.svg';
 import RandomButton from '@components//ui/RandomButton.tsx';
 import SearchInput from '@components//ui/SearchInput.tsx';
+import {Link} from "react-router-dom";
 
 const HomePage: React.FC = () => {
     return (
@@ -15,7 +16,9 @@ const HomePage: React.FC = () => {
 
                 <nav>
                     <RandomButton />
-                    <button onClick={() => window.location.href = '/history'}>История</button>
+                    <Link to="/history">
+                        <button>История</button>
+                    </Link>
                 </nav>
             </main>
         </>

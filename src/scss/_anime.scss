@@ -3,6 +3,7 @@
     flex-direction: row;
     overflow: hidden;
     padding: 0 !important;
+    min-height: 226px;
 
     .poster {
         width: 165px;
@@ -82,9 +83,21 @@ h1.long {
     font-size: 24px !important;
 }
 
+.loading {
+    min-height: 226px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
 @media (max-width: 768px) {
     h1, h1.long {
         font-size: 22px !important;
+    }
+
+    .loading {
+        min-height: 420px;
     }
 
     .animeBlock {
@@ -102,3 +115,4 @@ h1.long {
         }
     }
 }
+

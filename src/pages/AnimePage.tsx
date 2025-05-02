@@ -122,7 +122,7 @@ const AnimePage: React.FC = () => {
         }
     }, [animeData]);
 
-    if (loading) return <div className="block">Загрузка…</div>;
+    if (loading) return <div className="block loading"><h2>Загрузка…</h2></div>;
     if (error || !animeData) return <div className="block">{error || "Нет данных."}</div>;
 
     return (
