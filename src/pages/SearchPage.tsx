@@ -59,7 +59,7 @@ const SearchPage: React.FC = () => {
     }, [query]);
 
     return (
-        <main className="containerSearch">
+        <main className="containerCatalog">
             <h1>Результаты поиска по запросу: «{query}»</h1>
 
             {loading && <p>Загрузка...</p>}
@@ -75,9 +75,9 @@ const SearchPage: React.FC = () => {
             )}
 
             {!loading && !error && results.length > 0 && (
-                <ul className="search-results">
+                <ul className="catalogResults">
                     {results.map((item) => (
-                        <li key={item.anime_url} className="search-result-item">
+                        <li key={item.anime_url} className="resultItem">
                             <a href={`/anime/${item.anime_url}`} className="result-link">
                                 <img
                                     src={item.poster_url}

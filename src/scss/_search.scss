@@ -1,15 +1,19 @@
-.containerSearch {
+.containerCatalog {
     display: flex;
     flex-direction: column;
 
     h1 {
         text-align: center;
     }
+
+    p {
+        text-align: center;
+    }
 }
 
 
 
-.search-results {
+.catalogResults {
     display: grid;
     gap: 20px;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -18,7 +22,7 @@
     margin: 0;
 }
 
-.search-result-item {
+.resultItem {
     background: var(--block);
     border-radius: 16px;
     max-width: 300px;
@@ -72,7 +76,7 @@
 }
 
 @media (max-width: 680px) {
-    .search-results {
+    .catalogResults {
         grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
         gap: 10px;
     }

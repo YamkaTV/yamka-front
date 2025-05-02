@@ -13,6 +13,12 @@ interface AnimeData {
     status: string;
 }
 
+interface HistoryEntry {
+    title: string;
+    anime_url: string;
+    poster_url: string;
+}
+
 const AnimePage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [animeData, setAnimeData] = useState<AnimeData | null>(null);
@@ -42,6 +48,35 @@ const AnimePage: React.FC = () => {
 
                     const data = await response.json();
                     setAnimeData(data);
+
+                    // Сохраняем в localStorage с проверкой на дубли
+                    if (data) {
+                        const history: HistoryEntry[] = JSON.parse(localStorage.getItem('History') || '[]');
+
+                        // Проверяем, есть ли уже это аниме в истории
+                        const existingIndex = history.findIndex((item) => item.anime_url === data.anime_url);
+
+                        if (existingIndex !== -1) {
+                            // Если аниме уже существует, удаляем его из массива
+                            history.splice(existingIndex, 1);
+                        }
+
+                        // Добавляем новое аниме в начало массива
+                        const newEntry: HistoryEntry = {
+                            title: data.title,
+                            anime_url: data.anime_url,
+                            poster_url: data.poster_url,
+                        };
+                        history.unshift(newEntry);
+
+                        // Если элементов больше 100, удаляем старые
+                        if (history.length > 100) {
+                            history.pop(); // Удаляем последний элемент
+                        }
+
+                        // Сохраняем обновленный список в localStorage
+                        localStorage.setItem('History', JSON.stringify(history));
+                    }
                 } catch {
                     setError("Не удалось загрузить данные.");
                 } finally {
