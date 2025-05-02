@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import poster from '../assets/poster.png';
+import CustomSelect from '@components/selectors/Selectors.module';
 
 interface AnimeData {
     title: string;
@@ -8,9 +9,10 @@ interface AnimeData {
     poster_url: string;
     description: string;
     link?: string;
-    other_titles?: string[]
+    other_titles?: string[];
     anime_url: string;
     status: string;
+    anime_id: number;  // anime_id приходит из данных API
 }
 
 interface HistoryEntry {
@@ -20,11 +22,16 @@ interface HistoryEntry {
 }
 
 const AnimePage: React.FC = () => {
-    const { id } = useParams<{ id: string }>();
+    const { id } = useParams<{ id: string }>();  // id получаем из параметров маршрута
     const [animeData, setAnimeData] = useState<AnimeData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [isTitlesExpanded, setIsTitlesExpanded] = useState(false);
+    const [selectedPlayer, setSelectedPlayer] = useState('');
+    const [selectedVoice, setSelectedVoice] = useState('');
+    const [selectedEpisode, setSelectedEpisode] = useState('');
+    const [videoData, setVideoData] = useState<Record<string, Record<string, { episode: string, iframe_url: string }[]>> | null>(null);
+    const [selectedIframeUrl, setSelectedIframeUrl] = useState('');
 
     const prevIdRef = useRef<string | null>(null);
     const infoElRef = useRef<HTMLDivElement>(null);
@@ -34,10 +41,56 @@ const AnimePage: React.FC = () => {
     const titleLinkRef = useRef<HTMLAnchorElement>(null);
     const titleH1Ref = useRef<HTMLHeadingElement>(null);
 
-    // Загрузка данных
+    const handleVoiceChange = (voice: string) => {
+        setSelectedVoice(voice);
+
+        const firstPlayer = Object.keys(videoData?.[voice] || {})[0] || '';
+        const episodes = videoData?.[voice]?.[firstPlayer] || [];
+        const firstEpisode = episodes[0]?.episode || '';
+        const iframe = episodes[0]?.iframe_url?.startsWith('http')
+            ? episodes[0]?.iframe_url
+            : 'https:' + episodes[0]?.iframe_url;
+
+        setSelectedPlayer(firstPlayer);
+        setSelectedEpisode(firstEpisode);
+        setSelectedIframeUrl(iframe || '');
+    };
+
+    const handlePlayerChange = (player: string) => {
+        setSelectedPlayer(player);
+
+        const episodes = videoData?.[selectedVoice]?.[player] || [];
+        const firstEpisode = episodes[0]?.episode || '';
+        const iframe = episodes[0]?.iframe_url?.startsWith('http')
+            ? episodes[0]?.iframe_url
+            : 'https:' + episodes[0]?.iframe_url;
+
+        setSelectedEpisode(firstEpisode);
+        setSelectedIframeUrl(iframe || '');
+    };
+
+    const handleEpisodeChange = (episode: string) => {
+        setSelectedEpisode(episode);
+
+        const ep = videoData?.[selectedVoice]?.[selectedPlayer]?.find(e => e.episode === episode);
+        const iframe = ep?.iframe_url?.startsWith('http')
+            ? ep.iframe_url
+            : 'https:' + ep?.iframe_url;
+
+        setSelectedIframeUrl(iframe || '');
+    };
+
+
+
+    // Загрузка данных о аниме
     useEffect(() => {
-        setIsTitlesExpanded(false);
-        const currentId = id ?? null;
+        if (!id) {
+            setError("Неверный ID аниме.");
+            setLoading(false);
+            return;
+        }
+
+        const currentId = id;
         if (prevIdRef.current !== currentId) {
             prevIdRef.current = currentId;
 
@@ -86,7 +139,61 @@ const AnimePage: React.FC = () => {
 
             fetchAnimeData();
         }
-    }, [id]);
+    }, [id]);  // Только когда меняется id
+
+    // Загрузка видео данных
+    useEffect(() => {
+        const loadVideoData = async () => {
+            if (!animeData?.anime_id) return;
+
+            try {
+                const response = await fetch(`https://api.yamka.tv/anime/videos/${animeData.anime_id}`);
+                if (!response.ok) throw new Error("Не удалось загрузить видео");
+
+                const data = await response.json();
+                setVideoData(data);
+
+                // Установка дефолтных селектов
+                const voices = Object.keys(data);
+                const defaultVoice = voices[0] || '';
+                const players = defaultVoice ? Object.keys(data[defaultVoice]) : [];
+                const defaultPlayer = players[0] || '';
+                const episodes = defaultVoice && defaultPlayer ? data[defaultVoice][defaultPlayer] : [];
+                const defaultEpisode = episodes[0]?.episode || '';
+                const defaultIframeUrl = episodes[0]?.iframe_url?.startsWith('http')
+                    ? episodes[0]?.iframe_url
+                    : 'https:' + episodes[0]?.iframe_url;
+
+                setSelectedVoice(defaultVoice);
+                setSelectedPlayer(defaultPlayer);
+                setSelectedEpisode(defaultEpisode);
+                setSelectedIframeUrl(defaultIframeUrl || '');
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        loadVideoData();
+    }, [animeData]);
+
+
+    useEffect(() => {
+        if (videoData && selectedVoice && selectedPlayer && selectedEpisode) {
+            const epList = videoData[selectedVoice]?.[selectedPlayer] || [];
+            const ep = epList.find(e => e.episode === selectedEpisode);
+            if (ep) {
+                setSelectedIframeUrl(ep.iframe_url.startsWith('http') ? ep.iframe_url : 'https:' + ep.iframe_url);
+            }
+        }
+    }, [selectedVoice, selectedPlayer, selectedEpisode, videoData]);
+
+
+    const voices = videoData ? Object.keys(videoData) : [];
+    const players = selectedVoice && videoData ? Object.keys(videoData[selectedVoice] || {}) : [];
+    const episodes =
+        selectedVoice && selectedPlayer && videoData
+            ? videoData[selectedVoice]?.[selectedPlayer]?.map(e => e.episode) || []
+            : [];
 
     // Обновление document.title
     useEffect(() => {
@@ -164,7 +271,6 @@ const AnimePage: React.FC = () => {
         }
     }, [animeData]);
 
-
     if (loading) return <div className="block loading"><h2>Загрузка…</h2></div>;
     if (error || !animeData) return <div className="block loading">{error || "Нет данных."}</div>;
 
@@ -181,7 +287,7 @@ const AnimePage: React.FC = () => {
                     <h1 ref={titleH1Ref}>
                         <a
                             ref={titleLinkRef}
-                            href={animeData.link || `http://yani.tv/catalog/item/${animeData.anime_url}`}
+                            href={animeData.link || `https://yani.tv/catalog/item/${animeData.anime_url}`}
                             className="title"
                             target="_blank"
                             rel="noreferrer"
@@ -216,10 +322,42 @@ const AnimePage: React.FC = () => {
             </div>
 
             <div className="block">
-                <div className="player">
-                    {/* Плеер будет здесь */}
-                </div>
+                {videoData && (
+                    <div className="selectors">
+                        <CustomSelect
+                            label="Озвучка"
+                            options={voices}
+                            value={selectedVoice}
+                            onChange={handleVoiceChange}
+                        />
+                        <CustomSelect
+                            label="Плеер"
+                            options={players}
+                            value={selectedPlayer}
+                            onChange={handlePlayerChange}
+                        />
+                        <CustomSelect
+                            label="Серия"
+                            options={episodes}
+                            value={selectedEpisode}
+                            onChange={handleEpisodeChange}
+                        />
+                    </div>
+                )}
+
+                {selectedIframeUrl && (
+                    <div className="iframe-container">
+                        <iframe
+                            src={selectedIframeUrl}
+                            title="Anime Video"
+                            allowFullScreen
+                            style={{ border: 'none' }}
+                        />
+
+                    </div>
+                )}
             </div>
+
         </main>
     );
 };
