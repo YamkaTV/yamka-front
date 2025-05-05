@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import poster from '../assets/poster.png';
+import poster from '../assets/poster.avif';
 import CustomSelect from '@components/selectors/Selectors.module';
 
 interface AnimeData {
