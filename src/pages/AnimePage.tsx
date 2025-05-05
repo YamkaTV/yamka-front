@@ -325,7 +325,7 @@ const AnimePage: React.FC = () => {
                     <div ref={containerRef} className="toggle-container"></div>
                 </div>
             </div>
-
+            <ins data-pm-b="728x90"></ins>
             <div className="block videoBlock">
                 {videoData && (
                     <div className="selectors">

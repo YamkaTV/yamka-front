@@ -1,31 +1,32 @@
+/* open-sans-regular - cyrillic_cyrillic-ext_latin */
 @font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
     font-family: 'Open Sans';
-    src: url('../../public/fonts/OpenSans-Regular.ttf') format('truetype');
+    font-style: normal;
     font-weight: 400;
-    font-style: normal;
-    font-display: swap;
+    src: url('../assets/fonts/open-sans-v40-cyrillic_cyrillic-ext_latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
-
+/* open-sans-500 - cyrillic_cyrillic-ext_latin */
 @font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
     font-family: 'Open Sans';
-    src: url('../../public/fonts/OpenSans-Medium.ttf') format('truetype');
+    font-style: normal;
     font-weight: 500;
-    font-style: normal;
-    font-display: swap;
+    src: url('../assets/fonts/open-sans-v40-cyrillic_cyrillic-ext_latin-500.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
-
+/* open-sans-600 - cyrillic_cyrillic-ext_latin */
 @font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
     font-family: 'Open Sans';
-    src: url('../../public/fonts/OpenSans-SemiBold.ttf') format('truetype');
+    font-style: normal;
     font-weight: 600;
-    font-style: normal;
-    font-display: swap;
+    src: url('../assets/fonts/open-sans-v40-cyrillic_cyrillic-ext_latin-600.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
-
+/* open-sans-700 - cyrillic_cyrillic-ext_latin */
 @font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
     font-family: 'Open Sans';
-    src: url('../../public/fonts/OpenSans-Bold.ttf') format('truetype');
-    font-weight: 700;
     font-style: normal;
-    font-display: swap;
+    font-weight: 700;
+    src: url('../assets/fonts/open-sans-v40-cyrillic_cyrillic-ext_latin-700.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
