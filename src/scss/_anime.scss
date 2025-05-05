@@ -3,12 +3,12 @@
     flex-direction: row;
     overflow: hidden;
     padding: 0 !important;
-    min-height: 226px;
+    min-height: 227px;
 
     .poster {
         width: 165px;
         min-width: 165px;
-        aspect-ratio: var(--aspect-ratio, 2/2.75);
+        aspect-ratio: var(--aspect-ratio, 165/227);
         height: 100%;
         object-fit: contain;
         display: block;
@@ -135,11 +135,20 @@ h1.long {
 }
 
 .loading {
-    min-height: 226px;
+    min-height: 227px;
     display: flex;
     width: 100%;
     align-items: center;
     justify-content: center;
+}
+
+.loading2 {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    min-width: 100%;
+    aspect-ratio: 16/10;
 }
 
 .selectors {
@@ -147,6 +156,7 @@ h1.long {
     flex-direction: row;
     gap: 10px;
     margin-bottom: 15px;
+    min-height: 44px;
 }
 
 
@@ -157,6 +167,10 @@ h1.long {
 
     .loading {
         min-height: 420px;
+    }
+
+    .loading2 {
+        aspect-ratio: 2772/2208;
     }
 
     .animeBlock {
@@ -176,7 +190,7 @@ h1.long {
 
     .selectors {
         flex-direction: column;
-        margin-top: 10px !important;
+        margin: 0 0 10px 0 !important;
     }
 }
 

@@ -43,11 +43,6 @@
     background-color: var(--block-hover); /* Цвет фона полосы прокрутки */
 }
 
-/* Горизонтальная полоска прокрутки */
-::-webkit-scrollbar-horizontal {
-    height: 6px;
-}
-
 ::-webkit-scrollbar-thumb.horizontal {
     background-color: var(--main);
 }
@@ -61,24 +56,30 @@
     padding: 0;
 }
 
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
 html {
     scroll-behavior: smooth;
     font-size: 16px;
 }
 
 #root {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    flex: 1;
 }
-
 body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
     background-color: var(--bg);
+    font-family: 'Open Sans', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
+
 
 .container {
     flex: 1;

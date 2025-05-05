@@ -270,7 +270,13 @@ const AnimePage: React.FC = () => {
         }
     }, [animeData]);
 
-    if (loading) return <div className="block loading"><h2>Загрузка…</h2></div>;
+    if (loading) return (
+        <>
+            <div className="block loading"><h2>Загрузка…</h2></div>
+            <div className="block loading2"><h2>Загрузка…</h2></div>
+        </>
+    );
+
     if (error || !animeData) return <div className="block loading">{error || "Нет данных."}</div>;
 
     return (
@@ -320,7 +326,7 @@ const AnimePage: React.FC = () => {
                 </div>
             </div>
 
-            <div className="block">
+            <div className="block videoBlock">
                 {videoData && (
                     <div className="selectors">
                         <CustomSelect

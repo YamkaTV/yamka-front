@@ -22,6 +22,7 @@
     border-radius: 6px;
     overflow: hidden;
     user-select: none;
+    aspect-ratio: 16 / 9;
 }
 
 iframe {
@@ -29,4 +30,14 @@ iframe {
     height: 100%;
     aspect-ratio: 16 / 9;
     object-fit: cover;
+}
+
+.videoBlock {
+    aspect-ratio: 570/359;
+}
+
+@media (max-width: 768px) {
+    .videoBlock {
+        aspect-ratio: 2772/2208;
+    }
 }
