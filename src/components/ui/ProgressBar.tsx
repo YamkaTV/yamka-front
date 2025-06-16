@@ -12,7 +12,7 @@ const TopProgressBar = () => {
         NProgress.start();
         const timer = setTimeout(() => {
             NProgress.done();
-        }, 300); // можно тонко настроить
+        }, 300);
 
         return () => {
             clearTimeout(timer);

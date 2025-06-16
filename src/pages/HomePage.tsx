@@ -3,8 +3,8 @@ import BigLogo from '../assets/BigLogo.svg';
 import RandomButton from '@components//ui/RandomButton';
 import SearchInput from '@components//ui/SearchInput';
 import {Link} from "react-router-dom";
-import { seoPages } from '../seoConfig';
-import SeoHead from '@components/SeoHead'; // Импортировал SeoHead
+import { seoPages } from '@components/seo/seoConfig';
+import SeoHead from '@components/seo/SeoHead';
 
 const HomePage: React.FC = () => {
     return (

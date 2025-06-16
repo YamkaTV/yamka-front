@@ -2,8 +2,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import poster from '../assets/poster.avif';
 import CustomSelect from '@components/selectors/Selectors.module';
-import { seoPages } from '../seoConfig';
-import SeoHead from '@components/SeoHead'; // Импортировал SeoHead
+import { seoPages } from '@components/seo/seoConfig'; // Обновлен путь
+import SeoHead from '@components/seo/SeoHead'; // Обновлен путь
 
 interface AnimeData {
     title: string;
@@ -323,7 +323,7 @@ const AnimePage: React.FC = () => {
                     <div className="description" ref={descElRef}>
                         {animeData.description || "Описание не найдено"}
                     </div>
-                    <div ref={containerRef} className="toggleContainer"></div> {/* Изменено на toggleContainer */}
+                    <div ref={containerRef} className="toggleContainer"></div>
                 </div>
             </div>
 

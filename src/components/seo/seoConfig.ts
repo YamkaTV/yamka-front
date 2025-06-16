@@ -1,7 +1,7 @@
 interface SeoConfig {
     title: string;
     description: string;
-    noindex?: boolean; // Добавил опциональное свойство noindex
+    noindex?: boolean;
 }
 
 interface SeoPages {

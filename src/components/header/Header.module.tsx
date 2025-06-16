@@ -3,7 +3,7 @@ import '../../scss/main.scss';
 import styles from './Header.module.scss';
 import ColorLogo from '../../assets/ColorLogo.svg';
 import LogoMini from '../../assets/LogoMini.svg';
-import RandomButton from '@components/ui/RandomButton.tsx';
+import RandomButton from '@components/ui/RandomButton';
 import SearchInput from "@components/ui/SearchInput";
 import { Link } from 'react-router-dom';
 

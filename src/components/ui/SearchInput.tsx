@@ -42,7 +42,7 @@ const SearchInput: React.FC = () => {
             />
             {showButton && (
                 <button
-                    className="search-button"
+                    className="searchButton"
                     onMouseDown={handleSearch}
                     aria-label="Поиск"
                 >

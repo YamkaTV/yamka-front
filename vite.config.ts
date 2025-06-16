@@ -72,6 +72,7 @@ export default defineConfig({
     alias: {
       '@components': '/src/components',
       '@images': '/public/images',
+      '@components/seo': '/src/components/seo' // Добавлен новый алиас
     },
   },
 })

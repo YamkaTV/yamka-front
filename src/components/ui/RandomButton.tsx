@@ -16,17 +16,16 @@ const RandomButton: React.FC = () => {
 
             const data = await response.json();
 
-            // Переход на страницу с передачей данных в state
             navigate(`/anime/${data.anime_url}`, { state: { animeData: data } });
         } catch (err) {
             console.error('Ошибка при переходе на случайное аниме:', err);
         } finally {
-            setTimeout(() => setIsLoading(false), 200); // Имитация задержки
+            setTimeout(() => setIsLoading(false), 200);
         }
     };
 
     return (
-        <button onClick={handleClick} className="random-button" disabled={isLoading}>
+        <button onClick={handleClick} className="randomButton" disabled={isLoading}>
             Случайное
         </button>
     );

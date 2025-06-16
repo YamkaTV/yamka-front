@@ -1,6 +1,6 @@
 import React from 'react';
-import { seoPages } from '../seoConfig';
-import SeoHead from '@components/SeoHead'; // Импортировал SeoHead
+import { seoPages } from '@components/seo/seoConfig'; // Обновлен путь
+import SeoHead from '@components/seo/SeoHead'; // Обновлен путь
 
 const TermsPage: React.FC = () => {
     return (

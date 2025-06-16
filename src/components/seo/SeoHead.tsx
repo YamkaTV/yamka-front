@@ -28,13 +28,11 @@ const SeoHead: React.FC<SeoHeadProps> = ({ title, description, noindex }) => {
         if (noindex) {
             metaRobots.setAttribute('content', 'noindex, nofollow');
         } else {
-            // Если noindex не установлен или false, убедимся, что тег robots не запрещает индексацию
-            // Можно удалить тег или установить content в 'index, follow'
             metaRobots.setAttribute('content', 'index, follow');
         }
     }, [title, description, noindex]);
 
-    return null; // Этот компонент не рендерит ничего в DOM
+    return null;
 };
 
 export default SeoHead;

@@ -1,7 +1,7 @@
 import React from 'react';
 import '../scss/_notfound.scss';
-import { seoPages } from '../seoConfig';
-import SeoHead from '@components/SeoHead'; // Импортировал SeoHead
+import { seoPages } from '@components/seo/seoConfig'; // Обновлен путь
+import SeoHead from '@components/seo/SeoHead'; // Обновлен путь
 
 const NotFoundPage: React.FC = () => {
     return (
