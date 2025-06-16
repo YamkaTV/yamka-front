@@ -1,13 +1,14 @@
 import React from 'react';
 import BigLogo from '../../assets/BigLogo.svg';
 import RandomButton from '@components//ui/RandomButton';
-import SearchInput from '@components//ui/SearchInput';
+import SearchInput from '@components/search/SearchInput';
 import {Link} from "react-router-dom";
 import { seoPages } from '@components/seo/seoConfig';
 import SeoHead from '@components/seo/SeoHead';
 import Styles from './HomePage.module.scss';
 
 const HomePage: React.FC = () => {
+    const { homeContainer, bigLogo } = Styles;
     return (
         <>
             <SeoHead
@@ -15,8 +16,8 @@ const HomePage: React.FC = () => {
                 description={seoPages.home.description}
                 noindex={seoPages.home.noindex}
             />
-            <main className={Styles.homeContainer}>
-                <div className="bigLogo">
+            <main className={homeContainer}>
+                <div className={bigLogo}>
                     <img src={BigLogo} alt="Логотип" width="654" height="536"/>
                 </div>
 

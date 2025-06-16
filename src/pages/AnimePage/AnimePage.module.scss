@@ -131,6 +131,28 @@ h1.long {
     font-size: 24px !important;
 }
 
+.loading {
+    min-height: 227px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading2 {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    min-width: 100%;
+    aspect-ratio: 16/10;
+}
+
+.rounded,
+.rounded2 {
+    border-bottom-right-radius: 15px;
+}
+
 .selectors {
     display: flex;
     flex-direction: row;

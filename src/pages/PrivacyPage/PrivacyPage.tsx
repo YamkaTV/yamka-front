@@ -4,7 +4,7 @@ import SeoHead from '@components/seo/SeoHead'; // Обновлен путь
 
 const PrivacyPage: React.FC = () => {
     return (
-        <main className="main">
+        <main>
             <SeoHead
                 title={seoPages.privacy.title}
                 description={seoPages.privacy.description}

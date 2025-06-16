@@ -44,6 +44,7 @@ const AnimePage: React.FC = () => {
     const titleLinkRef = useRef<HTMLAnchorElement>(null);
     const titleH1Ref = useRef<HTMLHeadingElement>(null);
 
+
     const handleVoiceChange = (voice: string) => {
         setSelectedVoice(voice);
 
@@ -204,10 +205,10 @@ const AnimePage: React.FC = () => {
 
         if (infoEl && posterEl) {
             if (infoEl.offsetHeight > 230) {
-                posterEl.classList.add('rounded2');
+                posterEl.classList.add(styles.rounded2);
             } else {
-                posterEl.classList.remove('rounded2');
-                posterEl.classList.remove('rounded');
+                posterEl.classList.remove(styles.rounded2);
+                posterEl.classList.remove(styles.rounded);
             }
         }
     }, [animeData]);
@@ -242,7 +243,7 @@ const AnimePage: React.FC = () => {
                     btn.textContent = "Свернуть";
 
                     if (posterElRef.current && infoElRef.current && infoElRef.current.offsetHeight > 200) {
-                        posterElRef.current.classList.add("rounded");
+                        posterElRef.current.classList.add(styles.rounded);
                     }
 
                     setTimeout(() => {
@@ -257,7 +258,7 @@ const AnimePage: React.FC = () => {
                     btn.textContent = "Развернуть";
 
                     if (posterElRef.current) {
-                        posterElRef.current.classList.remove("rounded");
+                        posterElRef.current.classList.remove(styles.rounded);
                     }
                 }
 
@@ -268,12 +269,12 @@ const AnimePage: React.FC = () => {
 
     if (loading) return (
         <>
-            <div className="block loading"><h2>Загрузка…</h2></div>
-            <div className="block loading2"><h2>Загрузка…</h2></div>
+            <div className={`block ${styles.loading}`}><h2>Загрузка…</h2></div>
+            <div className={`block ${styles.loading2}`}><h2>Загрузка…</h2></div>
         </>
     );
 
-    if (error || !animeData) return <div className="block loading">{error || "Нет данных."}</div>;
+    if (error || !animeData) return <div className={`block ${styles.loading}`}>{error || "Нет данных."}</div>;
 
     return (
         <main className="main">

@@ -4,7 +4,7 @@ import styles from './Header.module.scss';
 import ColorLogo from '../../assets/ColorLogo.svg';
 import LogoMini from '../../assets/logoMini.svg';
 import RandomButton from '@components/ui/RandomButton';
-import SearchInput from "@components/ui/SearchInput";
+import SearchInput from "@components/search/SearchInput";
 import { Link } from 'react-router-dom';
 
 const Header: React.FC = () => {

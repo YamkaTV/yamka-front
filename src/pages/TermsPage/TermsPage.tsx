@@ -4,7 +4,7 @@ import SeoHead from '@components/seo/SeoHead'; // Обновлен путь
 
 const TermsPage: React.FC = () => {
     return (
-        <main className="main">
+        <main>
             <SeoHead
                 title={seoPages.terms.title}
                 description={seoPages.terms.description}

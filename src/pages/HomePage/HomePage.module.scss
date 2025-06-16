@@ -4,6 +4,11 @@
     place-content: center;
     height: 100vh;
 
+    .bigLogo {
+        display: flex;
+        justify-content: center;
+    }
+
     .titleLogo {
         font-size: 128px;
         font-weight: 700;

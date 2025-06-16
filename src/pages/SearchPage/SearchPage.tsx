@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { seoPages } from '@components/seo/seoConfig'; // Обновлен путь
 import SeoHead from '@components/seo/SeoHead'; // Обновлен путь
-import styles from './SearchPage.module.scss';
+import catalogStyles from '../../components/catalog/Catalog.module.scss';
+import searchPageStyles from './SearchPage.module.scss';
 
 interface AnimeItem {
     anime_title: string;
@@ -19,7 +20,7 @@ const SearchPage: React.FC = () => {
     // Состояния для результатов, загрузки и ошибок
     const [results, setResults] = useState<AnimeItem[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
+    const [localError, setLocalError] = useState<string | null>(null); // Переименовал, чтобы избежать конфликта с импортированным 'error'
 
     useEffect(() => {
         // Если нет запроса — ничего не делаем
@@ -30,7 +31,7 @@ const SearchPage: React.FC = () => {
 
         const fetchResults = async () => {
             setLoading(true);
-            setError(null);
+            setLocalError(null);
 
             try {
                 const response = await fetch(
@@ -52,7 +53,7 @@ const SearchPage: React.FC = () => {
                 }
             } catch (err) {
                 console.error('Ошибка при поиске аниме:', err);
-                setError('Не удалось выполнить поиск. Попробуйте ещё раз.');
+                setLocalError('Не удалось выполнить поиск. Попробуйте ещё раз.');
             } finally {
                 setLoading(false);
             }
@@ -68,7 +69,7 @@ const SearchPage: React.FC = () => {
     };
 
     return (
-        <main className={styles.containerCatalog}>
+        <main className={catalogStyles.containerCatalog}>
             <SeoHead
                 title={currentSeo.title}
                 description={currentSeo.description}
@@ -78,30 +79,30 @@ const SearchPage: React.FC = () => {
 
             {loading && <p>Загрузка...</p>}
 
-            {error && (
-                <p className="error">
-                    {error}
+            {localError && (
+                <p className={searchPageStyles.error}>
+                    {localError}
                 </p>
             )}
 
-            {!loading && !error && results.length === 0 && (
+            {!loading && !localError && results.length === 0 && (
                 <p>Ничего не найдено.</p>
             )}
 
-            {!loading && !error && results.length > 0 && (
-                <ul className={styles.catalogResults}>
+            {!loading && !localError && results.length > 0 && (
+                <ul className={catalogStyles.catalogResults}>
                     {results.map((item) => (
-                        <li key={item.anime_url} className={styles.resultItem}>
-                            <a href={`/anime/${item.anime_url}`} className={styles.resultLink}>
+                        <li key={item.anime_url} className={catalogStyles.resultItem}>
+                            <a href={`/anime/${item.anime_url}`} className={catalogStyles.resultLink}>
                                 <img
                                     src={item.poster_url}
                                     alt={item.anime_title}
-                                    className={styles.resultPoster}
+                                    className={catalogStyles.resultPoster}
                                     width={80}
                                     height={120}
                                 />
-                                <div className={styles.resultTitleWrapper}>
-                                    <span className={styles.resultTitle}>{item.anime_title}</span>
+                                <div className={catalogStyles.resultTitleWrapper}>
+                                    <span className={catalogStyles.resultTitle}>{item.anime_title}</span>
                                 </div>
                             </a>
                         </li>

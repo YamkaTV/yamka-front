@@ -8,7 +8,7 @@ interface CustomSelectProps {
     value?: string;
     label: string;
     onChange: (value: string) => void;
-    prefix?: string;  // Новый проп для текста перед значением
+    prefix?: string; 
 }
 
 const CustomSelect: React.FC<CustomSelectProps> = ({ options, placeholder = 'Выбрать...', value, onChange, prefix }) => {

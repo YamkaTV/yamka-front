@@ -1,8 +1,10 @@
 import React, { useState, useRef } from 'react';
+import styles from './SearchInput.module.scss';
 
 const SearchInput: React.FC = () => {
     const [showButton, setShowButton] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
+    const { search, searchButton } = styles;
 
     const handleFocus = () => setShowButton(true);
     const handleBlur = () => {
@@ -29,7 +31,7 @@ const SearchInput: React.FC = () => {
     };
 
     return (
-        <div className="search">
+        <div className={search}>
             <input
                 type="text"
                 ref={inputRef}
@@ -42,7 +44,7 @@ const SearchInput: React.FC = () => {
             />
             {showButton && (
                 <button
-                    className="searchButton"
+                    className={searchButton}
                     onMouseDown={handleSearch}
                     aria-label="Поиск"
                 >
