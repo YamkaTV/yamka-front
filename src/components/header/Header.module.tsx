@@ -2,7 +2,7 @@ import React from 'react';
 
 import styles from './Header.module.scss';
 import ColorLogo from '../../assets/ColorLogo.svg';
-import LogoMini from '../../assets/LogoMini.svg';
+import LogoMini from '../../assets/logoMini.svg';
 import RandomButton from '@components/ui/RandomButton';
 import SearchInput from "@components/ui/SearchInput";
 import { Link } from 'react-router-dom';

@@ -1,3 +1,8 @@
+.main {
+    place-content: center;
+    height: 100vh;
+}
+
 .bigLogo {
     display: flex;
     justify-content: center;
@@ -128,12 +133,4 @@
             aspect-ratio: 2 / 3;
         }
     }
-}
-
-.container {
-    flex: 1;
-    width: 100%;
-    max-width: 1160px;
-    margin: 0 auto;
-    padding: 0 10px;
 }
