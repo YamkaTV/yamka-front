@@ -98,7 +98,7 @@ const AnimePage: React.FC = () => {
     const handleEpisodeChange = (episode: string) => {
         setSelectedEpisode(episode);
 
-        const ep = videoData?.[selectedVoice]?.[selectedPlayer]?.find(e => e.episode === episode);
+        const ep = videoData?.[selectedVoice]?.[selectedPlayer]?.find(e => e.episode === selectedEpisode);
         const iframe = ep?.iframe_url?.startsWith('http')
             ? ep.iframe_url
             : 'https:' + ep?.iframe_url;
@@ -288,7 +288,6 @@ const AnimePage: React.FC = () => {
                     <div
                         className={`${styles.description} ${isDescriptionExpanded ? styles.expandedDescription : ''}`}
                         ref={descElRef}
-                        style={{ maxHeight: isDescriptionExpanded ? 'none' : '65px' }} // Применяем стиль здесь
                     >
                         {animeData.description || "Описание не найдено"}
                     </div>
