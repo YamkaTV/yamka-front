@@ -1,6 +1,212 @@
 @use 'fonts' as *;
 @use 'variables' as *;
-@use 'base' as *;
 
 @use 'block' as *;
-@use 'nprogress' as *;
+
+@mixin desktop {
+    @media (hover: hover) and (pointer: fine) {
+        @content;
+    }
+}
+
+@mixin desktopHover(
+    $transition: true,
+    $outerDuration: 0.2s,
+    $innerDuration: 0.3s,
+    $disableTextDecoration: true
+) {
+    @include desktop {
+        @if $transition {
+            transition: background $outerDuration ease-out;
+        }
+        &:hover,
+        &:active {
+            @if $transition {
+                transition: background $innerDuration ease-out;
+            }
+            @if $disableTextDecoration {
+                text-decoration: none;
+            }
+            @content;
+        }
+    }
+}
+
+#nprogress {
+    pointer-events: none;
+}
+
+#nprogress .bar {
+    background: var(--text-minor);
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--text-minor); 
+    border-radius: 6px;
+    border: 2px solid var(--block);
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--block-hover);
+}
+
+::-webkit-scrollbar-thumb.horizontal {
+    background-color: var(--main);
+}
+
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+#root {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    background-color: var(--bg);
+    font-family: 'Open Sans', 'Segoe UI', 'Helvetica Neue', sans-serif;
+}
+
+.container {
+    flex: 1;
+    width: 100%;
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+nav {
+    display: flex;
+    gap: 5px;
+
+    button {
+        background: none;
+        border: none;
+        color: var(--text-main);
+        font-size: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        padding: 7px 12px;
+        position: relative;
+        transition: color 0.2s;
+        white-space: nowrap;
+        user-select: none;
+
+        &:hover {
+            color: var(--text-minor);
+            transition: width 0.3s ease;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--text-minor);
+            transform: translateX(-50%);
+            transition: width 0.3s ease;
+        }
+
+        &:hover::after {
+            width: 80%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    }
+}
+
+body {
+    font-family: 'Open Sans', -apple-system, sans-serif;
+    font-weight: 400; /* Regular по умолчанию */
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--bg);
+    color: var(--text-main);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 16px;
+}
+
+h1 { font-size: 34px; }
+h2 { font-size: 26px; }
+h3 { font-size: 22px; color: var(--text-minor); }
+h4 { font-size: 20px; }
+h5 { font-size: 18px; }
+h6 { font-size: 16px; }
+
+p {
+    margin-bottom: 10px;
+}
+
+a {
+    color: var(--text-minor);
+    text-decoration: none;
+    transition: color 0.3s ease;
+
+    &:hover {
+        color: var(--text-minor);
+        text-decoration: underline;
+    }
+}
+
+ul, ol {
+    margin-bottom: 16px;
+    padding-left: 32px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+img, video, iframe {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+input, button, textarea, select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}

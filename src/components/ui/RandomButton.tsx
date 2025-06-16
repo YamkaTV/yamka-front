@@ -25,7 +25,7 @@ const RandomButton: React.FC = () => {
     };
 
     return (
-        <button onClick={handleClick} className="randomButton" disabled={isLoading}>
+        <button onClick={handleClick} disabled={isLoading}>
             Случайное
         </button>
     );
