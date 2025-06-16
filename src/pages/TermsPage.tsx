@@ -1,6 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { seoPages } from '../seoConfig'; // Импортировал seoPages
 
 const TermsPage: React.FC = () => {
+    useEffect(() => {
+        document.title = seoPages.terms.title;
+        let metaDescription = document.querySelector('meta[name="description"]');
+        if (!metaDescription) {
+            metaDescription = document.createElement('meta');
+            metaDescription.setAttribute('name', 'description');
+            document.head.appendChild(metaDescription);
+        }
+        metaDescription.setAttribute('content', seoPages.terms.description);
+    }, []);
+
     return (
         <main className="main">
             <div className="block">
@@ -41,8 +53,8 @@ const TermsPage: React.FC = () => {
 
                 <h3>5. Контакты</h3>
                 <p>По всем юридическим и техническим вопросам вы можете связаться с нами по
-                    email: <a href="mailto:support@yamka.tv" className="email-link" title="Написать в поддержку"
-                              aria-label="Написать на support@yamka.tv">support@yamka.tv</a></p>
+                    email: <a href="mailto:support@yamka.tv" className="emailLink" title="Написать в поддержку"
+                               aria-label="Написать на support@yamka.tv">support@yamka.tv</a></p>
             </div>
 
         </main>

@@ -34,7 +34,6 @@ const App: React.FC = () => {
                         <Route path="/history" element={<HistoryPage />} />
                         <Route path="/privacy" element={<PrivacyPage />} />
                         <Route path="/search" element={<SearchPage />} />
-<Route path="*" element={<NotFoundPage />} />
                         <Route path="/terms" element={<TermsPage />} />
                         <Route path="*" element={<NotFoundPage />} />
                     </Routes>

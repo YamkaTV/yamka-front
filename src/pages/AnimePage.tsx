@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import poster from '../assets/poster.avif';
-import CustomSelect from '@components/selectors/Selectors.module';
+import CustomSelect from '@components/selectors/Selectors.module'; // Убрал .tsx
+import { seoPages } from '../seoConfig'; // Импортировал seoPages
 
 interface AnimeData {
     title: string;
@@ -194,10 +195,17 @@ const AnimePage: React.FC = () => {
             ? videoData[selectedVoice]?.[selectedPlayer]?.map(e => e.episode) || []
             : [];
 
-    // Обновление document.title
+    // Обновление SEO
     useEffect(() => {
         if (animeData?.title) {
-            document.title = `${animeData.title} смотреть онлайн бесплатно на Yamka TV`;
+            document.title = seoPages.anime.title.replace('{animeTitle}', animeData.title);
+            let metaDescription = document.querySelector('meta[name="description"]');
+            if (!metaDescription) {
+                metaDescription = document.createElement('meta');
+                metaDescription.setAttribute('name', 'description');
+                document.head.appendChild(metaDescription);
+            }
+            metaDescription.setAttribute('content', seoPages.anime.description.replace('{animeTitle}', animeData.title));
         }
     }, [animeData]);
 
@@ -223,7 +231,7 @@ const AnimePage: React.FC = () => {
 
         if (!descEl || !container) return;
 
-        const existingBtn = container.querySelector(".toggle-btn");
+        const existingBtn = container.querySelector(".toggleBtn"); // Изменено на toggleBtn
         if (existingBtn) existingBtn.remove();
 
         const DEFAULT_HEIGHT = 65;
@@ -231,7 +239,7 @@ const AnimePage: React.FC = () => {
             const btn = document.createElement("button");
             btn.type = "button";
             btn.textContent = "Развернуть";
-            btn.classList.add("toggle-btn");
+            btn.classList.add("toggleBtn"); // Изменено на toggleBtn
             container.appendChild(btn);
 
             descEl.style.height = `${DEFAULT_HEIGHT}px`;
@@ -312,7 +320,7 @@ const AnimePage: React.FC = () => {
                         <div className="status">{animeData.status}</div>
                         {animeData.other_titles?.length ? (
                             <div
-                                className={`other-titles ${isTitlesExpanded ? 'expanded' : ''}`}
+                                className={`otherTitles ${isTitlesExpanded ? 'expanded' : ''}`}
                                 onClick={() => setIsTitlesExpanded(!isTitlesExpanded)}
                             >
 
