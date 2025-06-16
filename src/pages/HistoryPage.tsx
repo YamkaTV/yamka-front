@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { seoPages } from '../seoConfig'; // Импортировал seoPages
+import { seoPages } from '../seoConfig';
+import SeoHead from '@components/SeoHead'; // Импортировал SeoHead
 
 interface HistoryEntry {
     title: string;
@@ -17,31 +18,13 @@ const HistoryPage: React.FC = () => {
         setHistory(storedHistory);
     }, []);
 
-    // Обновление SEO
-    useEffect(() => {
-        document.title = seoPages.history.title;
-        let metaDescription = document.querySelector('meta[name="description"]');
-        if (!metaDescription) {
-            metaDescription = document.createElement('meta');
-            metaDescription.setAttribute('name', 'description');
-            document.head.appendChild(metaDescription);
-        }
-        metaDescription.setAttribute('content', seoPages.history.description);
-
-        // Добавление мета-тега robots для запрета индексации
-        if (seoPages.history.noindex) {
-            let metaRobots = document.querySelector('meta[name="robots"]');
-            if (!metaRobots) {
-                metaRobots = document.createElement('meta');
-                metaRobots.setAttribute('name', 'robots');
-                document.head.appendChild(metaRobots);
-            }
-            metaRobots.setAttribute('content', 'noindex, nofollow');
-        }
-    }, []);
-
     return (
         <main className="containerCatalog">
+            <SeoHead
+                title={seoPages.history.title}
+                description={seoPages.history.description}
+                noindex={seoPages.history.noindex}
+            />
             <h1>История просмотренных аниме</h1>
 
             {history.length === 0 && <p>История пуста. На странице должны отображаться недавно открытые аниме</p>}

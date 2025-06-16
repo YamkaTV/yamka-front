@@ -1,24 +1,19 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import BigLogo from '../assets/BigLogo.svg';
 import RandomButton from '@components//ui/RandomButton';
 import SearchInput from '@components//ui/SearchInput';
 import {Link} from "react-router-dom";
 import { seoPages } from '../seoConfig';
+import SeoHead from '@components/SeoHead'; // Импортировал SeoHead
 
 const HomePage: React.FC = () => {
-    useEffect(() => {
-        document.title = seoPages.home.title;
-        let metaDescription = document.querySelector('meta[name="description"]');
-        if (!metaDescription) {
-            metaDescription = document.createElement('meta');
-            metaDescription.setAttribute('name', 'description');
-            document.head.appendChild(metaDescription);
-        }
-        metaDescription.setAttribute('content', seoPages.home.description);
-    }, []);
-
     return (
         <>
+            <SeoHead
+                title={seoPages.home.title}
+                description={seoPages.home.description}
+                noindex={seoPages.home.noindex}
+            />
             <main className="main">
                 <div className="bigLogo">
                     <img src={BigLogo} alt="Логотип" width="654" height="536"/>

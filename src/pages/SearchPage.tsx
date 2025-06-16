@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { seoPages } from '../seoConfig'; // Импортировал seoPages
+import { seoPages } from '../seoConfig';
+import SeoHead from '@components/SeoHead'; // Импортировал SeoHead
 
 interface AnimeItem {
     anime_title: string;
@@ -18,18 +19,6 @@ const SearchPage: React.FC = () => {
     const [results, setResults] = useState<AnimeItem[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
-
-    // Обновление SEO
-    useEffect(() => {
-        document.title = seoPages.search.title.replace('{query}', query);
-        let metaDescription = document.querySelector('meta[name="description"]');
-        if (!metaDescription) {
-            metaDescription = document.createElement('meta');
-            metaDescription.setAttribute('name', 'description');
-            document.head.appendChild(metaDescription);
-        }
-        metaDescription.setAttribute('content', seoPages.search.description.replace('{query}', query));
-    }, [query]); // Зависит от query
 
     useEffect(() => {
         // Если нет запроса — ничего не делаем
@@ -71,8 +60,19 @@ const SearchPage: React.FC = () => {
         fetchResults();
     }, [query]);
 
+    const currentSeo = {
+        title: seoPages.search.title.replace('{query}', query),
+        description: seoPages.search.description.replace('{query}', query),
+        noindex: seoPages.search.noindex
+    };
+
     return (
         <main className="containerCatalog">
+            <SeoHead
+                title={currentSeo.title}
+                description={currentSeo.description}
+                noindex={currentSeo.noindex}
+            />
             <h1>Результаты поиска по запросу: «{query}»</h1>
 
             {loading && <p>Загрузка...</p>}

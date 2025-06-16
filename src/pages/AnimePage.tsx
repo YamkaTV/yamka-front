@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import poster from '../assets/poster.avif';
-import CustomSelect from '@components/selectors/Selectors.module'; // Убрал .tsx
-import { seoPages } from '../seoConfig'; // Импортировал seoPages
+import CustomSelect from '@components/selectors/Selectors.module';
+import { seoPages } from '../seoConfig';
+import SeoHead from '@components/SeoHead'; // Импортировал SeoHead
 
 interface AnimeData {
     title: string;
@@ -195,20 +196,6 @@ const AnimePage: React.FC = () => {
             ? videoData[selectedVoice]?.[selectedPlayer]?.map(e => e.episode) || []
             : [];
 
-    // Обновление SEO
-    useEffect(() => {
-        if (animeData?.title) {
-            document.title = seoPages.anime.title.replace('{animeTitle}', animeData.title);
-            let metaDescription = document.querySelector('meta[name="description"]');
-            if (!metaDescription) {
-                metaDescription = document.createElement('meta');
-                metaDescription.setAttribute('name', 'description');
-                document.head.appendChild(metaDescription);
-            }
-            metaDescription.setAttribute('content', seoPages.anime.description.replace('{animeTitle}', animeData.title));
-        }
-    }, [animeData]);
-
     // Управление rounded классами
     useEffect(() => {
         const infoEl = infoElRef.current;
@@ -231,7 +218,7 @@ const AnimePage: React.FC = () => {
 
         if (!descEl || !container) return;
 
-        const existingBtn = container.querySelector(".toggleBtn"); // Изменено на toggleBtn
+        const existingBtn = container.querySelector(".toggleBtn");
         if (existingBtn) existingBtn.remove();
 
         const DEFAULT_HEIGHT = 65;
@@ -239,7 +226,7 @@ const AnimePage: React.FC = () => {
             const btn = document.createElement("button");
             btn.type = "button";
             btn.textContent = "Развернуть";
-            btn.classList.add("toggleBtn"); // Изменено на toggleBtn
+            btn.classList.add("toggleBtn");
             container.appendChild(btn);
 
             descEl.style.height = `${DEFAULT_HEIGHT}px`;
@@ -289,6 +276,11 @@ const AnimePage: React.FC = () => {
 
     return (
         <main className="main">
+            <SeoHead
+                title={animeData?.title ? seoPages.anime.title.replace('{animeTitle}', animeData.title) : seoPages.anime.title}
+                description={animeData?.description ? seoPages.anime.description.replace('{animeTitle}', animeData.title) : seoPages.anime.description}
+                noindex={seoPages.anime.noindex}
+            />
             <div className="block animeBlock">
                 <ins data-pm-b="728x90"></ins>
                 <img
@@ -331,7 +323,7 @@ const AnimePage: React.FC = () => {
                     <div className="description" ref={descElRef}>
                         {animeData.description || "Описание не найдено"}
                     </div>
-                    <div ref={containerRef} className="toggle-container"></div>
+                    <div ref={containerRef} className="toggleContainer"></div> {/* Изменено на toggleContainer */}
                 </div>
             </div>
 

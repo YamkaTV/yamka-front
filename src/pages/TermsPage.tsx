@@ -1,20 +1,15 @@
-import React, { useEffect } from 'react';
-import { seoPages } from '../seoConfig'; // Импортировал seoPages
+import React from 'react';
+import { seoPages } from '../seoConfig';
+import SeoHead from '@components/SeoHead'; // Импортировал SeoHead
 
 const TermsPage: React.FC = () => {
-    useEffect(() => {
-        document.title = seoPages.terms.title;
-        let metaDescription = document.querySelector('meta[name="description"]');
-        if (!metaDescription) {
-            metaDescription = document.createElement('meta');
-            metaDescription.setAttribute('name', 'description');
-            document.head.appendChild(metaDescription);
-        }
-        metaDescription.setAttribute('content', seoPages.terms.description);
-    }, []);
-
     return (
         <main className="main">
+            <SeoHead
+                title={seoPages.terms.title}
+                description={seoPages.terms.description}
+                noindex={seoPages.terms.noindex}
+            />
             <div className="block">
                 <h2>Условия использования</h2>
                 <p>Последнее обновление: 25.04.2025</p>

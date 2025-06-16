@@ -1,20 +1,15 @@
 import React, { useEffect } from 'react';
-import { seoPages } from '../seoConfig'; // Импортировал seoPages
+import { seoPages } from '../seoConfig';
+import SeoHead from '@components/SeoHead'; // Импортировал SeoHead
 
 const PrivacyPage: React.FC = () => {
-    useEffect(() => {
-        document.title = seoPages.privacy.title;
-        let metaDescription = document.querySelector('meta[name="description"]');
-        if (!metaDescription) {
-            metaDescription = document.createElement('meta');
-            metaDescription.setAttribute('name', 'description');
-            document.head.appendChild(metaDescription);
-        }
-        metaDescription.setAttribute('content', seoPages.privacy.description);
-    }, []);
-
     return (
         <main className="main">
+            <SeoHead
+                title={seoPages.privacy.title}
+                description={seoPages.privacy.description}
+                noindex={seoPages.privacy.noindex}
+            />
             <div className="block">
                 <h2>Политика конфиденциальности</h2>
                 <p>Последнее обновление: 25.04.2025</p>
