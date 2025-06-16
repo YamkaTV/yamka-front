@@ -11,7 +11,7 @@ const RandomButton: React.FC = () => {
         setIsLoading(true);
 
         try {
-            const response = await fetch('https://api.yamka.tv/anime/random');
+            const response = await fetch('https://api.yamka.tv/update/anime/random');
             if (!response.ok) throw new Error('Ошибка получения случайного аниме');
 
             const data = await response.json();

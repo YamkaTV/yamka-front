@@ -8,15 +8,33 @@ import styles from './AnimePage.module.scss';
 import Block from '../../components/block/Block';
 
 interface AnimeData {
-    title: string;
-    rating: number;
-    poster_url: string;
-    description: string;
-    link?: string;
-    other_titles?: string[];
-    anime_url: string;
-    status: string;
     anime_id: number;
+    anime_url: string;
+    title: string;
+    description: string;
+    rating: number;
+    other_titles?: string[];
+    poster_url: string;
+    status: string;
+    viewing_order: any[]; // Уточнить тип, если необходимо
+}
+
+interface VideoEpisode {
+    episode: string;
+    iframe_url: string;
+}
+
+interface VideoPlayer {
+    [playerName: string]: VideoEpisode[];
+}
+
+interface AnimeVideos {
+    [voiceName: string]: VideoPlayer;
+}
+
+interface AnimeApiResponse {
+    anime_data: AnimeData;
+    anime_videos: AnimeVideos;
 }
 
 interface HistoryEntry {
@@ -34,7 +52,7 @@ const AnimePage: React.FC = () => {
     const [selectedPlayer, setSelectedPlayer] = useState('');
     const [selectedVoice, setSelectedVoice] = useState('');
     const [selectedEpisode, setSelectedEpisode] = useState('');
-    const [videoData, setVideoData] = useState<Record<string, Record<string, { episode: string, iframe_url: string }[]>> | null>(null);
+    const [videoData, setVideoData] = useState<AnimeVideos | null>(null);
     const [selectedIframeUrl, setSelectedIframeUrl] = useState('');
 
     const prevIdRef = useRef<string | null>(null);
@@ -86,7 +104,6 @@ const AnimePage: React.FC = () => {
     };
 
 
-    // Загрузка данных о аниме
     useEffect(() => {
         if (!id) {
             setError("Неверный ID аниме.");
@@ -98,14 +115,19 @@ const AnimePage: React.FC = () => {
         if (prevIdRef.current !== currentId) {
             prevIdRef.current = currentId;
 
-            const fetchAnimeData = async () => {
+            const fetchData = async () => {
                 try {
-                    const response = await fetch(`https://api.yamka.tv/anime/data/${id}`);
+                    const response = await fetch(`https://api.yamka.tv/update/anime/data/${id}`);
                     if (!response.ok) throw new Error("HTTP error: " + response.status);
 
-                    const data = await response.json();
-                    setAnimeData(data);
+                    const result: AnimeApiResponse = await response.json();
+                    const data = result.anime_data;
+                    const videos = result.anime_videos;
 
+                    setAnimeData(data);
+                    setVideoData(videos);
+
+                    // Обновление истории
                     if (data) {
                         const history: HistoryEntry[] = JSON.parse(localStorage.getItem('History') || '[]');
                         const existingIndex = history.findIndex((item) => item.anime_url === data.anime_url);
@@ -127,6 +149,28 @@ const AnimePage: React.FC = () => {
 
                         localStorage.setItem('History', JSON.stringify(history));
                     }
+
+                    // Установка начальных значений для селекторов видео
+                    if (videos && Object.keys(videos).length > 0) {
+                        const voices = Object.keys(videos);
+                        const defaultVoice = voices[0] || '';
+                        const players = defaultVoice ? Object.keys(videos[defaultVoice]) : [];
+                        const defaultPlayer = players[0] || '';
+                        const episodes = defaultVoice && defaultPlayer ? videos[defaultVoice][defaultPlayer] : [];
+                        const defaultEpisode = episodes[0]?.episode || '';
+                        const defaultIframeUrl = episodes[0]?.iframe_url?.startsWith('http')
+                            ? episodes[0]?.iframe_url
+                            : 'https:' + episodes[0]?.iframe_url;
+
+                        setSelectedVoice(defaultVoice);
+                        setSelectedPlayer(defaultPlayer);
+                        setSelectedEpisode(defaultEpisode);
+                        setSelectedIframeUrl(defaultIframeUrl || '');
+                    } else {
+                         setVideoData(null); // Устанавливаем null, если видеоданные отсутствуют или пусты
+                    }
+
+
                 } catch {
                     setError("Не удалось загрузить данные.");
                 } finally {
@@ -134,42 +178,9 @@ const AnimePage: React.FC = () => {
                 }
             };
 
-            fetchAnimeData();
+            fetchData();
         }
     }, [id]);
-
-    useEffect(() => {
-        const loadVideoData = async () => {
-            if (!animeData?.anime_id) return;
-
-            try {
-                const response = await fetch(`https://api.yamka.tv/anime/videos/${animeData.anime_id}`);
-                if (!response.ok) throw new Error("Не удалось загрузить видео");
-
-                const data = await response.json();
-                setVideoData(data);
-                const voices = Object.keys(data);
-                const defaultVoice = voices[0] || '';
-                const players = defaultVoice ? Object.keys(data[defaultVoice]) : [];
-                const defaultPlayer = players[0] || '';
-                const episodes = defaultVoice && defaultPlayer ? data[defaultVoice][defaultPlayer] : [];
-                const defaultEpisode = episodes[0]?.episode || '';
-                const defaultIframeUrl = episodes[0]?.iframe_url?.startsWith('http')
-                    ? episodes[0]?.iframe_url
-                    : 'https:' + episodes[0]?.iframe_url;
-
-                setSelectedVoice(defaultVoice);
-                setSelectedPlayer(defaultPlayer);
-                setSelectedEpisode(defaultEpisode);
-                setSelectedIframeUrl(defaultIframeUrl || '');
-            } catch (err) {
-                console.error(err);
-            }
-        };
-
-        loadVideoData();
-    }, [animeData]);
-
 
     useEffect(() => {
         if (videoData && selectedVoice && selectedPlayer && selectedEpisode) {
@@ -189,7 +200,6 @@ const AnimePage: React.FC = () => {
             ? videoData[selectedVoice]?.[selectedPlayer]?.map(e => e.episode) || []
             : [];
 
-    // Управление rounded классами
     useEffect(() => {
         const infoEl = infoElRef.current;
         const posterEl = posterElRef.current;
@@ -204,7 +214,6 @@ const AnimePage: React.FC = () => {
         }
     }, [animeData]);
 
-    // Управление кнопкой описания
     useEffect(() => {
         const descEl = descElRef.current;
         const container = containerRef.current;
@@ -260,12 +269,12 @@ const AnimePage: React.FC = () => {
 
     if (loading) return (
         <>
-            <Block className={styles.loading}><h2>Загрузка…</h2></Block>
-            <Block className={styles.loading2}><h2>Загрузка…</h2></Block>
+            <Block className={styles.loading}><h2>Загрузка данных…</h2></Block>
+            <Block className={styles.loading2}><h2>Загрузка данных…</h2></Block>
         </>
     );
 
-    if (error || !animeData) return <Block className={styles.loading}>{error || "Нет данных."}</Block>;
+    if (error || !animeData || !videoData) return <Block className={styles.loading}>{error || "Нет данных."}</Block>;
 
     return (
         <main>
@@ -286,7 +295,7 @@ const AnimePage: React.FC = () => {
                     <h1 ref={titleH1Ref}>
                         <a
                             ref={titleLinkRef}
-                            href={animeData.link || `https://yani.tv/catalog/item/${animeData.anime_url}`}
+                            href={ `https://yani.tv/catalog/item/${animeData.anime_url}`}
                             className={styles.title}
                             target="_blank"
                             rel="noreferrer"
