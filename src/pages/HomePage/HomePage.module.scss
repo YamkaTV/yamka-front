@@ -1,16 +1,8 @@
 .homeContainer {
     max-width: 655px;
     margin: 0 auto;
-
-    .main {
-        place-content: center;
-        height: 100vh;
-    }
-
-    .bigLogo {
-        display: flex;
-        justify-content: center;
-    }
+    place-content: center;
+    height: 100vh;
 
     .titleLogo {
         font-size: 128px;

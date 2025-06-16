@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import poster from '../assets/poster.avif';
+import poster from '../../assets/poster.avif';
 import CustomSelect from '@components/selectors/Selectors.module';
 import { seoPages } from '@components/seo/seoConfig'; // Обновлен путь
 import SeoHead from '@components/seo/SeoHead'; // Обновлен путь
+import styles from './AnimePage.module.scss';
 
 interface AnimeData {
     title: string;
@@ -226,7 +227,7 @@ const AnimePage: React.FC = () => {
             const btn = document.createElement("button");
             btn.type = "button";
             btn.textContent = "Развернуть";
-            btn.classList.add("toggleBtn");
+            btn.classList.add(styles.toggleBtn);
             container.appendChild(btn);
 
             descEl.style.height = `${DEFAULT_HEIGHT}px`;
@@ -281,38 +282,38 @@ const AnimePage: React.FC = () => {
                 description={animeData?.description ? seoPages.anime.description.replace('{animeTitle}', animeData.title) : seoPages.anime.description}
                 noindex={seoPages.anime.noindex}
             />
-            <div className="block animeBlock">
+            <div className={`block ${styles.animeBlock}`}>
                 <ins data-pm-b="728x90"></ins>
                 <img
                     src={animeData.poster_url || poster}
-                    className="poster"
+                    className={styles.poster}
                     ref={posterElRef}
                     alt="Постер аниме"
                 />
-                <div className="info" ref={infoElRef}>
+                <div className={styles.info} ref={infoElRef}>
                     <h1 ref={titleH1Ref}>
                         <a
                             ref={titleLinkRef}
                             href={animeData.link || `https://yani.tv/catalog/item/${animeData.anime_url}`}
-                            className="title"
+                            className={styles.title}
                             target="_blank"
                             rel="noreferrer"
                         >
                             {animeData.title || "Название не найдено"}
                         </a>
                     </h1>
-                    <div className="ratingBlock">
-                        <svg className="star" viewBox="0 0 20 20" fill="none">
+                    <div className={styles.ratingBlock}>
+                        <svg className={styles.star} viewBox="0 0 20 20" fill="none">
                             <path
                                 d="M13.6 5.71 11.3.84A1.45 1.45 0 0 0 10 0c-.27 0-.53.08-.76.23a1.4 1.4 0 0 0-.53.6L6.4 5.73l-5.15.77a1.4 1.4 0 0 0-.73.34 1.54 1.54 0 0 0-.08 2.23l3.74 3.81-.88 5.36A1.49 1.49 0 0 0 4.6 20c.27.02.54-.04.78-.17l4.63-2.53 4.6 2.53c.5.26 1.08.22 1.53-.12a1.52 1.52 0 0 0 .57-1.47l-.88-5.37 3.73-3.8c.4-.4.54-1 .37-1.54a1.45 1.45 0 0 0-1.17-1.03l-5.15-.78v-.01Z"
                                 fill="var(--main)"
                             />
                         </svg>
-                        <div className="rating">{animeData.rating?.toFixed(1) || "0.0"}</div>
-                        <div className="status">{animeData.status}</div>
+                        <div className={styles.rating}>{animeData.rating?.toFixed(1) || "0.0"}</div>
+                        <div className={styles.status}>{animeData.status}</div>
                         {animeData.other_titles?.length ? (
                             <div
-                                className={`otherTitles ${isTitlesExpanded ? 'expanded' : ''}`}
+                                className={`${styles.otherTitles} ${isTitlesExpanded ? styles.expanded : ''}`}
                                 onClick={() => setIsTitlesExpanded(!isTitlesExpanded)}
                             >
 
@@ -320,16 +321,16 @@ const AnimePage: React.FC = () => {
                             </div>
                         ) : null}
                     </div>
-                    <div className="description" ref={descElRef}>
+                    <div className={styles.description} ref={descElRef}>
                         {animeData.description || "Описание не найдено"}
                     </div>
-                    <div ref={containerRef} className="toggleContainer"></div>
+                    <div ref={containerRef} className={styles.toggleContainer}></div>
                 </div>
             </div>
 
-            <div className="block videoBlock">
+            <div className={`block ${styles.videoBlock}`}>
                 {videoData && (
-                    <div className="selectors">
+                    <div className={styles.selectors}>
                         <CustomSelect
                             label="Озвучка"
                             options={voices}
@@ -353,7 +354,7 @@ const AnimePage: React.FC = () => {
                 )}
 
                 {selectedIframeUrl && (
-                    <div className="player">
+                    <div className={styles.player}>
                         <iframe
                             src={selectedIframeUrl}
                             title="Anime Video"

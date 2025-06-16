@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../scss/main.scss';
+
 import styles from './Header.module.scss';
 import ColorLogo from '../../assets/ColorLogo.svg';
 import LogoMini from '../../assets/LogoMini.svg';

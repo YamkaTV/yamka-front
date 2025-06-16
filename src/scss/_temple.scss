@@ -1,3 +1,65 @@
+.bigLogo {
+    display: flex;
+    justify-content: center;
+}
+
+.loading {
+    min-height: 227px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading2 {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    min-width: 100%;
+    aspect-ratio: 16/10;
+}
+
+.rounded,
+.rounded2 {
+    border-bottom-right-radius: 15px;
+}
+
+.error {
+    color: #f66;
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+
+.search {
+    position: relative;
+    width: 100%;
+}
+
+.search input {
+    width: 100%;
+    padding-right: 30px;
+    padding-left: 15px;
+}
+
+.searchButton {
+    position: absolute;
+    right: 15px;
+    top: 11px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--main);
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+.search input:focus + .searchButton,
+.search input:not(:placeholder-shown) + .searchButton {
+    opacity: 1;
+}
+
 .containerCatalog {
     display: flex;
     flex-direction: column;
@@ -10,8 +72,6 @@
         text-align: center;
     }
 }
-
-
 
 .catalogResults {
     display: grid;
@@ -70,48 +130,10 @@
     }
 }
 
-.error {
-    color: #f66;
-    margin-bottom: 16px;
-    font-weight: 600;
-}
-
-@media (max-width: 680px) {
-    .catalogResults {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 10px;
-    }
-
-    .resultTitle {
-        font-size: 14px;
-    }
-}
-
-.search {
-    position: relative;
+.container {
+    flex: 1;
     width: 100%;
-}
-
-.search input {
-    width: 100%;
-    padding-right: 30px; /* Пространство для кнопки */
-    padding-left: 15px;
-}
-
-.searchButton {
-    position: absolute;
-    right: 15px;
-    top: 11px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 18px; /* Размер иконки */
-    color: var(--main); /* Цвет иконки */
-    transition: opacity 0.3s ease;
-    opacity: 0;
-}
-
-.search input:focus + .searchButton,
-.search input:not(:placeholder-shown) + .searchButton {
-    opacity: 1;
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 0 10px;
 }

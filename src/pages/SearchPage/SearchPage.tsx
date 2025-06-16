@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { seoPages } from '@components/seo/seoConfig'; // Обновлен путь
 import SeoHead from '@components/seo/SeoHead'; // Обновлен путь
+import styles from './SearchPage.module.scss';
 
 interface AnimeItem {
     anime_title: string;
@@ -67,7 +68,7 @@ const SearchPage: React.FC = () => {
     };
 
     return (
-        <main className="containerCatalog">
+        <main className={styles.containerCatalog}>
             <SeoHead
                 title={currentSeo.title}
                 description={currentSeo.description}
@@ -88,19 +89,19 @@ const SearchPage: React.FC = () => {
             )}
 
             {!loading && !error && results.length > 0 && (
-                <ul className="catalogResults">
+                <ul className={styles.catalogResults}>
                     {results.map((item) => (
-                        <li key={item.anime_url} className="resultItem">
-                            <a href={`/anime/${item.anime_url}`} className="resultLink">
+                        <li key={item.anime_url} className={styles.resultItem}>
+                            <a href={`/anime/${item.anime_url}`} className={styles.resultLink}>
                                 <img
                                     src={item.poster_url}
                                     alt={item.anime_title}
-                                    className="resultPoster"
+                                    className={styles.resultPoster}
                                     width={80}
                                     height={120}
                                 />
-                                <div className="resultTitleWrapper">
-                                    <span className="resultTitle">{item.anime_title}</span>
+                                <div className={styles.resultTitleWrapper}>
+                                    <span className={styles.resultTitle}>{item.anime_title}</span>
                                 </div>
                             </a>
                         </li>

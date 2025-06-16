@@ -17,11 +17,6 @@
         transition: border-radius 0.4s ease;
     }
 
-    .rounded,
-    .rounded2 {
-        border-bottom-right-radius: 15px;
-    }
-
     .info {
         width: 100%;
         display: flex;
@@ -136,23 +131,6 @@ h1.long {
     font-size: 24px !important;
 }
 
-.loading {
-    min-height: 227px;
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-}
-
-.loading2 {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    min-width: 100%;
-    aspect-ratio: 16/10;
-}
-
 .selectors {
     display: flex;
     flex-direction: row;
@@ -165,14 +143,6 @@ h1.long {
 @media (max-width: 768px) {
     h1, h1.long {
         font-size: 22px !important;
-    }
-
-    .loading {
-        min-height: 420px;
-    }
-
-    .loading2 {
-        aspect-ratio: 2772/2208;
     }
 
     .animeBlock {
@@ -195,5 +165,3 @@ h1.long {
         margin: 0 0 10px 0 !important;
     }
 }
-
-
