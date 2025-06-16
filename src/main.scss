@@ -1,5 +1,15 @@
-@use 'fonts' as *;
-@use 'variables' as *;
+:root {
+    --bg: #181818;
+    --block: #312828;
+    --block-hover: #2C2424;
+    --button: #1E1E1E;
+    --button-hover: #151515;
+    --stroke: #6C6C6C;
+    --text-main: #FFECD3;
+    --text-minor: #FFAF9F;
+    --main: #FF4B4B;
+    --minor: #50211D;
+}
 
 @mixin desktop {
     @media (hover: hover) and (pointer: fine) {
@@ -207,4 +217,36 @@ input, button, textarea, select {
 
 button {
     cursor: pointer;
+}
+
+@font-face {
+    font-display: swap;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../assets/fonts/open-sans-v40-cyrillic_cyrillic-ext_latin-regular.woff2') format('woff2'); 
+}
+
+@font-face {
+    font-display: swap; 
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 500;
+    src: url('../assets/fonts/open-sans-v40-cyrillic_cyrillic-ext_latin-500.woff2') format('woff2'); 
+}
+
+@font-face {
+    font-display: swap; 
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    src: url('../assets/fonts/open-sans-v40-cyrillic_cyrillic-ext_latin-600.woff2') format('woff2'); 
+}
+
+@font-face {
+    font-display: swap;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    src: url('../assets/fonts/open-sans-v40-cyrillic_cyrillic-ext_latin-700.woff2') format('woff2'); 
 }
