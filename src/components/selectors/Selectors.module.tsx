@@ -1,6 +1,6 @@
 // src/components/CustomSelect.tsx
 import React, { useEffect, useRef, useState } from 'react';
-import styles from './selectors.module.scss';
+import styles from './Selectors.module.scss';
 
 interface CustomSelectProps {
     options: string[];
