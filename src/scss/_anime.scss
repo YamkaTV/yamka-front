@@ -67,23 +67,25 @@
 
             .other-titles {
                 display: -webkit-box;
-                -webkit-line-clamp: 1; /* Ограничение в 1 строку */
+                -webkit-line-clamp: 1; 
+                line-clamp: 1; 
                 -webkit-box-orient: vertical;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: normal;
                 position: relative;
-                padding-right: 20px; /* Место для многоточия */
+                padding-right: 20px; 
                 transition: all 0.3s ease;
             }
 
 
             .other-titles.expanded {
-                -webkit-line-clamp: unset; /* Снимаем ограничение строк */
+                -webkit-line-clamp: unset; 
+                line-clamp: unset; 
             }
 
             .other-titles.expanded::after {
-                display: none; /* Убираем многоточие в развернутом состоянии */
+                display: none; 
             }
 
             .toggle-titles-btn {

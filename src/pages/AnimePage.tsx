@@ -282,6 +282,7 @@ const AnimePage: React.FC = () => {
     return (
         <main className="main">
             <div className="block animeBlock">
+                <ins data-pm-b="728x90"></ins>
                 <img
                     src={animeData.poster_url || poster}
                     className="poster"
@@ -325,7 +326,7 @@ const AnimePage: React.FC = () => {
                     <div ref={containerRef} className="toggle-container"></div>
                 </div>
             </div>
-            <ins data-pm-b="728x90"></ins>
+
             <div className="block videoBlock">
                 {videoData && (
                     <div className="selectors">
