@@ -54,6 +54,9 @@ const AnimePage: React.FC = () => {
     const [selectedEpisode, setSelectedEpisode] = useState('');
     const [videoData, setVideoData] = useState<AnimeVideos | null>(null);
     const [selectedIframeUrl, setSelectedIframeUrl] = useState('');
+    const [showToggleBtn, setShowToggleBtn] = useState(false);
+    const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+
 
     const prevIdRef = useRef<string | null>(null);
     const infoElRef = useRef<HTMLDivElement>(null);
@@ -216,56 +219,16 @@ const AnimePage: React.FC = () => {
 
     useEffect(() => {
         const descEl = descElRef.current;
-        const container = containerRef.current;
-
-        if (!descEl || !container) return;
-
-        const existingBtn = container.querySelector(".toggleBtn");
-        if (existingBtn) existingBtn.remove();
-
         const DEFAULT_HEIGHT = 65;
-        if (descEl.scrollHeight > DEFAULT_HEIGHT + 5) {
-            const btn = document.createElement("button");
-            btn.type = "button";
-            btn.textContent = "Развернуть";
-            btn.classList.add(styles.toggleBtn);
-            container.appendChild(btn);
 
-            descEl.style.height = `${DEFAULT_HEIGHT}px`;
-            descEl.style.overflow = "hidden";
-            descEl.style.transition = "height 0.3s ease";
-
-            let expanded = false;
-
-            btn.addEventListener("click", () => {
-                if (!expanded) {
-                    descEl.style.height = `${descEl.scrollHeight}px`;
-                    btn.textContent = "Свернуть";
-
-                    if (posterElRef.current && infoElRef.current && infoElRef.current.offsetHeight > 200) {
-                        posterElRef.current.classList.add(styles.rounded);
-                    }
-
-                    setTimeout(() => {
-                        descEl.style.height = "auto";
-                    }, 300);
-                } else {
-                    const currentHeight = descEl.scrollHeight;
-                    descEl.style.height = `${currentHeight}px`;
-                    void descEl.offsetHeight;
-
-                    descEl.style.height = `${DEFAULT_HEIGHT}px`;
-                    btn.textContent = "Развернуть";
-
-                    if (posterElRef.current) {
-                        posterElRef.current.classList.remove(styles.rounded);
-                    }
-                }
-
-                expanded = !expanded;
-            });
+        if (descEl && descEl.scrollHeight > DEFAULT_HEIGHT + 5) {
+            setShowToggleBtn(true);
+        } else {
+            setShowToggleBtn(false);
         }
+        setIsDescriptionExpanded(false); // Сбрасываем состояние развернутости при смене аниме
     }, [animeData]);
+
 
     if (loading) return (
         <>
@@ -287,7 +250,7 @@ const AnimePage: React.FC = () => {
                 <ins data-pm-b="728x90"></ins>
                 <img
                     src={animeData.poster_url || poster}
-                    className={styles.poster}
+                    className={`${styles.poster} ${isDescriptionExpanded && infoElRef.current && infoElRef.current.offsetHeight > 200 ? styles.rounded : ''}`}
                     ref={posterElRef}
                     alt="Постер аниме"
                 />
@@ -322,10 +285,24 @@ const AnimePage: React.FC = () => {
                             </div>
                         ) : null}
                     </div>
-                    <div className={styles.description} ref={descElRef}>
+                    <div
+                        className={`${styles.description} ${isDescriptionExpanded ? styles.expandedDescription : ''}`}
+                        ref={descElRef}
+                        style={{ maxHeight: isDescriptionExpanded ? 'none' : '65px' }} // Применяем стиль здесь
+                    >
                         {animeData.description || "Описание не найдено"}
                     </div>
-                    <div ref={containerRef} className={styles.toggleContainer}></div>
+                    <div ref={containerRef} className={styles.toggleContainer}>
+                        {showToggleBtn && (
+                            <button
+                                type="button"
+                                className={styles.toggleBtn}
+                                onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+                            >
+                                {isDescriptionExpanded ? "Свернуть" : "Развернуть"}
+                            </button>
+                        )}
+                    </div>
                 </div>
             </Block>
 
