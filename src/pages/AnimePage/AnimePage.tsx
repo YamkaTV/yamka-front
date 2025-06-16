@@ -2,9 +2,10 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import poster from '../../assets/poster.avif';
 import CustomSelect from '@components/selectors/Selectors.module';
-import { seoPages } from '@components/seo/seoConfig'; // Обновлен путь
-import SeoHead from '@components/seo/SeoHead'; // Обновлен путь
+import { seoPages } from '@components/seo/seoConfig';
+import SeoHead from '@components/seo/SeoHead';
 import styles from './AnimePage.module.scss';
+import Block from '../../components/block/Block';
 
 interface AnimeData {
     title: string;
@@ -121,7 +122,7 @@ const AnimePage: React.FC = () => {
                         history.unshift(newEntry);
 
                         if (history.length > 100) {
-                            history.pop(); 
+                            history.pop();
                         }
 
                         localStorage.setItem('History', JSON.stringify(history));
@@ -259,12 +260,12 @@ const AnimePage: React.FC = () => {
 
     if (loading) return (
         <>
-            <div className={`block ${styles.loading}`}><h2>Загрузка…</h2></div>
-            <div className={`block ${styles.loading2}`}><h2>Загрузка…</h2></div>
+            <Block className={styles.loading}><h2>Загрузка…</h2></Block>
+            <Block className={styles.loading2}><h2>Загрузка…</h2></Block>
         </>
     );
 
-    if (error || !animeData) return <div className={`block ${styles.loading}`}>{error || "Нет данных."}</div>;
+    if (error || !animeData) return <Block className={styles.loading}>{error || "Нет данных."}</Block>;
 
     return (
         <main>
@@ -273,7 +274,7 @@ const AnimePage: React.FC = () => {
                 description={animeData?.description ? seoPages.anime.description.replace('{animeTitle}', animeData.title) : seoPages.anime.description}
                 noindex={seoPages.anime.noindex}
             />
-            <div className={`block ${styles.animeBlock}`}>
+            <Block className={styles.animeBlock}>
                 <ins data-pm-b="728x90"></ins>
                 <img
                     src={animeData.poster_url || poster}
@@ -317,9 +318,9 @@ const AnimePage: React.FC = () => {
                     </div>
                     <div ref={containerRef} className={styles.toggleContainer}></div>
                 </div>
-            </div>
+            </Block>
 
-            <div className={`block ${styles.videoBlock}`}>
+            <Block className={styles.videoBlock}>
                 {videoData && (
                     <div className={styles.selectors}>
                         <CustomSelect
@@ -355,7 +356,7 @@ const AnimePage: React.FC = () => {
 
                     </div>
                 )}
-            </div>
+            </Block>
 
         </main>
     );

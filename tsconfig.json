@@ -8,7 +8,7 @@
     "jsx": "react-jsx",
     "baseUrl": "./",
     "paths": {
-      "@components/*": ["src/components/*", "src/components/seo/*"], // Обновлен путь
+      "@components/*": ["src/components/*", "src/components/seo/*", "src/components/ui/*"],
       "@images/*": ["src/assets/*"]
     },
     "esModuleInterop": true,

@@ -1,8 +1,6 @@
 @use 'fonts' as *;
 @use 'variables' as *;
 
-@use 'block' as *;
-
 @mixin desktop {
     @media (hover: hover) and (pointer: fine) {
         @content;

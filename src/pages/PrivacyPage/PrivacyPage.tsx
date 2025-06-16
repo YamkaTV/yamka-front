@@ -1,6 +1,7 @@
 import React from 'react';
-import { seoPages } from '@components/seo/seoConfig'; // Обновлен путь
-import SeoHead from '@components/seo/SeoHead'; // Обновлен путь
+import { seoPages } from '@components/seo/seoConfig';
+import SeoHead from '@components/seo/SeoHead';
+import Block from '../../components/block/Block';
 
 const PrivacyPage: React.FC = () => {
     return (
@@ -10,7 +11,7 @@ const PrivacyPage: React.FC = () => {
                 description={seoPages.privacy.description}
                 noindex={seoPages.privacy.noindex}
             />
-            <div className="block">
+            <Block>
                 <h2>Политика конфиденциальности</h2>
                 <p>Последнее обновление: 25.04.2025</p>
                 <p>Настоящая Политика конфиденциальности описывает, какие данные собирает сайт YamkaTV (yamka.tv), и как
@@ -49,7 +50,7 @@ const PrivacyPage: React.FC = () => {
                 <p>По вопросам, связанным с конфиденциальностью, вы можете связаться с нами по
                     email: <a href="mailto:support@yamka.tv" className="emailLink" title="Написать в поддержку"
                                aria-label="Написать на support@yamka.tv">support@yamka.tv</a></p>
-            </div>
+            </Block>
         </main>
     );
 };
