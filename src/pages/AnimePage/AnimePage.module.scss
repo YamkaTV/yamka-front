@@ -187,3 +187,29 @@ h1.long {
         margin: 0 0 10px 0 !important;
     }
 }
+
+.player {
+    width: 100%;
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
+    user-select: none;
+    aspect-ratio: 16 / 9;
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+
+.videoBlock {
+    aspect-ratio: 570/359;
+}
+
+@media (max-width: 768px) {
+    .videoBlock {
+        aspect-ratio: 2772/2208;
+    }
+}
