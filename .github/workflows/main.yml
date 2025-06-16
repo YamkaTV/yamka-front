@@ -19,6 +19,11 @@ jobs:
       - name: Build project
         run: npm run build
 
+      - name: Copy build to workspace
+        run: |
+          rm -rf dist
+          cp -r ../dist ./dist
+
       - name: Deploy via SSH
         uses: appleboy/scp-action@v0.1.5
         with:
@@ -28,4 +33,3 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: "dist/"
           target: "/opt"
-          rm: true  # Удалит содержимое в /opt перед копированием
