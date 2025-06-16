@@ -32,4 +32,5 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: "dist/"
-          target: "/opt"
+          target: "/var/www/yamka-front"
+          rm: true  # Удалить файлы в целевой папке перед копированием (по необходимости)
