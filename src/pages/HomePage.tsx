@@ -1,7 +1,7 @@
 import React from 'react';
 import BigLogo from '../assets/BigLogo.svg';
-import RandomButton from '@components//ui/RandomButton.tsx';
-import SearchInput from '@components//ui/SearchInput.tsx';
+import RandomButton from '@components//ui/RandomButton';
+import SearchInput from '@components//ui/SearchInput';
 import {Link} from "react-router-dom";
 
 const HomePage: React.FC = () => {

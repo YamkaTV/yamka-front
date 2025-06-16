@@ -43,7 +43,7 @@
             height: auto;
         }
 
-        .toggle-btn {
+        .toggleBtn {
             margin-top: 3px;
             font-size: 14px;
             font-weight: 500;
@@ -54,7 +54,7 @@
             padding: 0;
         }
 
-        .toggle-btn:hover {
+        .toggleBtn:hover {
             outline: none;
             text-decoration: underline;
         }
@@ -65,7 +65,7 @@
             align-items: center;
             margin-bottom: 5px;
 
-            .other-titles {
+            .otherTitles {
                 display: -webkit-box;
                 -webkit-line-clamp: 1; 
                 line-clamp: 1; 
@@ -79,16 +79,16 @@
             }
 
 
-            .other-titles.expanded {
+            .otherTitles.expanded {
                 -webkit-line-clamp: unset; 
                 line-clamp: unset; 
             }
 
-            .other-titles.expanded::after {
+            .otherTitles.expanded::after {
                 display: none; 
             }
 
-            .toggle-titles-btn {
+            .toggleTitlesBtn {
                 position: absolute;
                 right: 0;
                 top: 0;
@@ -101,7 +101,7 @@
                 font-size: inherit;
             }
 
-            .toggle-titles-btn:hover {
+            .toggleTitlesBtn:hover {
                 text-decoration: underline;
             }
 

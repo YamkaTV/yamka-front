@@ -78,16 +78,16 @@ const SearchPage: React.FC = () => {
                 <ul className="catalogResults">
                     {results.map((item) => (
                         <li key={item.anime_url} className="resultItem">
-                            <a href={`/anime/${item.anime_url}`} className="result-link">
+                            <a href={`/anime/${item.anime_url}`} className="resultLink">
                                 <img
                                     src={item.poster_url}
                                     alt={item.anime_title}
-                                    className="result-poster"
+                                    className="resultPoster"
                                     width={80}
                                     height={120}
                                 />
-                                <div className="result-title-wrapper">
-                                    <span className="result-title">{item.anime_title}</span>
+                                <div className="resultTitleWrapper">
+                                    <span className="resultTitle">{item.anime_title}</span>
                                 </div>
                             </a>
                         </li>

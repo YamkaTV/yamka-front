@@ -30,6 +30,7 @@ export default defineConfig({
         ],
       },
       workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2,webmanifest}'],
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/cdnwidget\.simplejsmenu\.com\/.*/i,
@@ -45,6 +46,17 @@ export default defineConfig({
             options: {
               cacheName: 'external-ads',
               expiration: { maxEntries: 0 },
+            },
+          },
+          {
+            urlPattern: /\.(?:png|jpg|jpeg|svg|gif|ico|woff2)$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'assets-cache',
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 60 * 60 * 24 * 30, // 30 Days
+              },
             },
           },
         ],

@@ -6,8 +6,9 @@ import HomePage from '../pages/HomePage';
 import PrivacyPage from "../pages/PrivacyPage";
 import SearchPage from "../pages/SearchPage";
 import TermsPage from "../pages/TermsPage";
-import HeaderModule from '@components/header/Header.module.tsx';
-import FooterModule from '@components/footer/Footer.module.tsx';
+import NotFoundPage from '../pages/NotFoundPage';
+import HeaderModule from '@components/header/Header.module';
+import FooterModule from '@components/footer/Footer.module';
 import TopProgressBar from '@components/ui/ProgressBar';
 
 
@@ -33,7 +34,9 @@ const App: React.FC = () => {
                         <Route path="/history" element={<HistoryPage />} />
                         <Route path="/privacy" element={<PrivacyPage />} />
                         <Route path="/search" element={<SearchPage />} />
+<Route path="*" element={<NotFoundPage />} />
                         <Route path="/terms" element={<TermsPage />} />
+                        <Route path="*" element={<NotFoundPage />} />
                     </Routes>
                 </div>
             )}
