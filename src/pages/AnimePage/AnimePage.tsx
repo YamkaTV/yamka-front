@@ -105,19 +105,14 @@ const AnimePage: React.FC = () => {
                     const data = await response.json();
                     setAnimeData(data);
 
-                    // Сохраняем в localStorage с проверкой на дубли
                     if (data) {
                         const history: HistoryEntry[] = JSON.parse(localStorage.getItem('History') || '[]');
-
-                        // Проверяем, есть ли уже это аниме в истории
                         const existingIndex = history.findIndex((item) => item.anime_url === data.anime_url);
 
                         if (existingIndex !== -1) {
-                            // Если аниме уже существует, удаляем его из массива
                             history.splice(existingIndex, 1);
                         }
 
-                        // Добавляем новое аниме в начало массива
                         const newEntry: HistoryEntry = {
                             title: data.title,
                             anime_url: data.anime_url,
@@ -125,12 +120,10 @@ const AnimePage: React.FC = () => {
                         };
                         history.unshift(newEntry);
 
-                        // Если элементов больше 100, удаляем старые
                         if (history.length > 100) {
-                            history.pop(); // Удаляем последний элемент
+                            history.pop(); 
                         }
 
-                        // Сохраняем обновленный список в localStorage
                         localStorage.setItem('History', JSON.stringify(history));
                     }
                 } catch {
@@ -142,9 +135,8 @@ const AnimePage: React.FC = () => {
 
             fetchAnimeData();
         }
-    }, [id]);  // Только когда меняется id
+    }, [id]);
 
-    // Загрузка видео данных
     useEffect(() => {
         const loadVideoData = async () => {
             if (!animeData?.anime_id) return;
@@ -155,8 +147,6 @@ const AnimePage: React.FC = () => {
 
                 const data = await response.json();
                 setVideoData(data);
-
-                // Установка дефолтных селектов
                 const voices = Object.keys(data);
                 const defaultVoice = voices[0] || '';
                 const players = defaultVoice ? Object.keys(data[defaultVoice]) : [];
@@ -277,7 +267,7 @@ const AnimePage: React.FC = () => {
     if (error || !animeData) return <div className={`block ${styles.loading}`}>{error || "Нет данных."}</div>;
 
     return (
-        <main className="main">
+        <main>
             <SeoHead
                 title={animeData?.title ? seoPages.anime.title.replace('{animeTitle}', animeData.title) : seoPages.anime.title}
                 description={animeData?.description ? seoPages.anime.description.replace('{animeTitle}', animeData.title) : seoPages.anime.description}
