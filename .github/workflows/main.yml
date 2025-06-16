@@ -33,4 +33,3 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: "dist/"
           target: "/opt"
-          rm: true  # Удалит содержимое в /opt перед копированием
