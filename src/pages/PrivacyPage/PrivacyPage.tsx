@@ -1,9 +1,18 @@
 import React from 'react';
 import { seoPages } from '@components/seo/seoConfig';
 import SeoHead from '@components/seo/SeoHead';
+import JsonLdScript from '@components/seo/JsonLdScript'; // Импорт нового компонента
 import Block from '../../components/block/Block';
 
 const PrivacyPage: React.FC = () => {
+    const privacySchema = {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": seoPages.privacy.title,
+        "description": seoPages.privacy.description,
+        "url": "https://yamka.tv/privacy"
+    };
+
     return (
         <main>
             <SeoHead
@@ -11,6 +20,7 @@ const PrivacyPage: React.FC = () => {
                 description={seoPages.privacy.description}
                 noindex={seoPages.privacy.noindex}
             />
+            <JsonLdScript data={privacySchema} /> {/* Использование нового компонента */}
             <Block>
                 <h2>Политика конфиденциальности</h2>
                 <p>Последнее обновление: 25.04.2025</p>

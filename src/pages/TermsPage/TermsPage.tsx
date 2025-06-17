@@ -1,9 +1,18 @@
 import React from 'react';
 import { seoPages } from '@components/seo/seoConfig';
 import SeoHead from '@components/seo/SeoHead';
+import JsonLdScript from '@components/seo/JsonLdScript'; // Импорт нового компонента
 import Block from '../../components/block/Block';
 
 const TermsPage: React.FC = () => {
+    const termsSchema = {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": seoPages.terms.title,
+        "description": seoPages.terms.description,
+        "url": "https://yamka.tv/terms"
+    };
+
     return (
         <main>
             <SeoHead
@@ -11,6 +20,7 @@ const TermsPage: React.FC = () => {
                 description={seoPages.terms.description}
                 noindex={seoPages.terms.noindex}
             />
+            <JsonLdScript data={termsSchema} /> {/* Использование нового компонента */}
             <Block>
                 <h2>Условия использования</h2>
                 <p>Последнее обновление: 25.04.2025</p>
