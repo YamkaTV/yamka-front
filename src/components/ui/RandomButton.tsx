@@ -20,7 +20,7 @@ const RandomButton: React.FC = () => {
         } catch (err) {
             console.error('Ошибка при переходе на случайное аниме:', err);
         } finally {
-            setTimeout(() => setIsLoading(false), 200);
+            setIsLoading(false); // Перемещено сюда
         }
     };
 
