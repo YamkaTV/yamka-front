@@ -4,6 +4,7 @@ import poster from '../../assets/poster.avif';
 import CustomSelect from '@components/selectors/Selectors.module';
 import { seoPages } from '@components/seo/seoConfig';
 import SeoHead from '@components/seo/SeoHead';
+import JsonLdScript from '@components/seo/JsonLdScript'; // Импорт нового компонента
 import styles from './AnimePage.module.scss';
 import Block from '../../components/block/Block';
 
@@ -229,6 +230,22 @@ const AnimePage: React.FC = () => {
         setIsDescriptionExpanded(false); // Сбрасываем состояние развернутости при смене аниме
     }, [animeData]);
 
+    const animeSchema = animeData ? {
+        "@context": "https://schema.org",
+        "@type": "TVSeries",
+        "name": animeData.title,
+        "description": animeData.description,
+        "image": animeData.poster_url,
+        "url": `https://yamka.tv/anime/${animeData.anime_url}`,
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": animeData.rating,
+            "bestRating": "10",
+            "worstRating": "0",
+            "ratingCount": "1" // Заглушка, если нет реального количества оценок
+        }
+    } : null;
+
 
     if (loading) return (
         <>
@@ -246,6 +263,7 @@ const AnimePage: React.FC = () => {
                 description={animeData?.description ? seoPages.anime.description.replace('{animeTitle}', animeData.title) : seoPages.anime.description}
                 noindex={seoPages.anime.noindex}
             />
+            {animeSchema && <JsonLdScript data={animeSchema} />} {/* Использование нового компонента */}
             <Block className={styles.animeBlock}>
                 <ins data-pm-b="728x90"></ins>
                 <img
