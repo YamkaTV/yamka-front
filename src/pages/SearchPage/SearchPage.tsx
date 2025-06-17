@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { seoPages } from '@components/seo/seoConfig';
 import SeoHead from '@components/seo/SeoHead';
 import Catalog from '@components/catalog/Catalog';
-import searchPageStyles from './SearchPage.module.scss';
+import Styles from './SearchPage.module.scss';
 
 interface AnimeItem {
     anime_title: string;
@@ -76,18 +76,18 @@ const SearchPage: React.FC = () => {
                 description={currentSeo.description}
                 noindex={currentSeo.noindex}
             />
-            <h1>Результаты поиска по запросу: «{query}»</h1>
+            <h1 className={Styles.text}>Результаты поиска по запросу: «{query}»</h1>
 
-            {loading && <p>Загрузка...</p>}
+            {loading && <p className={Styles.text}>Загрузка...</p>}
 
             {localError && (
-                <p className={searchPageStyles.error}>
+                <p className={Styles.error}>
                     {localError}
                 </p>
             )}
 
             {!loading && !localError && results.length === 0 && (
-                <p>Ничего не найдено.</p>
+                <p className={Styles.text}>Ничего не найдено.</p>
             )}
 
             {!loading && !localError && results.length > 0 && (

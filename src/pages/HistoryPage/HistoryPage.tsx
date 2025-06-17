@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { seoPages } from '@components/seo/seoConfig';
 import SeoHead from '@components/seo/SeoHead';
 import Catalog from '@components/catalog/Catalog';
+import Styles from './HistoryPage.module.scss';
 
 interface HistoryEntry {
     title: string;
@@ -31,9 +32,9 @@ const HistoryPage: React.FC = () => {
                 description={seoPages.history.description}
                 noindex={seoPages.history.noindex}
             />
-            <h1>История просмотренных аниме</h1>
+            <h1 className={Styles.text}>История просмотренных аниме</h1>
 
-            {history.length === 0 && <p>История пуста. На странице должны отображаться недавно открытые аниме</p>}
+            {history.length === 0 && <p className={Styles.text}>История пуста. На странице должны отображаться недавно открытые аниме</p>}
 
             {history.length > 0 && (
                 <Catalog items={catalogItems} />
