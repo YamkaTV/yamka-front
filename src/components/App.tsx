@@ -71,6 +71,7 @@ const App: React.FC = () => {
             {!isHomePage && <JsonLdScript data={generateBreadcrumbSchema()} />}
             {isHomePage ? (
                 <div className={`container ${homePageStyles.homeContainer}`}>
+                    <Route path="/sitemap.xml" />
                     <Routes>
                         <Route path="/" element={<HomePage />} />
                     </Routes>
