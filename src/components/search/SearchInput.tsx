@@ -1,10 +1,14 @@
 import React, { useState, useRef } from 'react';
 import styles from './SearchInput.module.scss';
 
-const SearchInput: React.FC = () => {
+interface SearchInputProps {
+    isInMenu?: boolean; // Optional prop to indicate if the search is in a menu
+}
+
+const SearchInput: React.FC<SearchInputProps> = ({ isInMenu = false }) => {
     const [showButton, setShowButton] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
-    const { search, searchButton } = styles;
+    const { search, searchButton, searchInMenu } = styles; // Destructure searchInMenu
 
     const handleFocus = () => setShowButton(true);
     const handleBlur = () => {
@@ -31,7 +35,7 @@ const SearchInput: React.FC = () => {
     };
 
     return (
-        <div className={search}>
+        <div className={`${search} ${isInMenu ? searchInMenu : ''}`}> {/* Apply conditional class */}
             <input
                 type="text"
                 ref={inputRef}

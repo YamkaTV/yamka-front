@@ -44,3 +44,7 @@
 .search input:not(:placeholder-shown) + .searchButton {
     opacity: 1;
 }
+
+.searchInMenu {
+    width: 200px; /* Пример ограничения ширины для меню */
+}
