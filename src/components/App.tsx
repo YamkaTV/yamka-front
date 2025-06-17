@@ -16,15 +16,14 @@ import homePageStyles from '../pages/HomePage/HomePage.module.scss';
 
 const App: React.FC = () => {
     const location = useLocation();
+if (location.pathname === '/sitemap.xml') {
+      return null; // Ничего не рендерим, пусть браузер сам обработает XML
+    }
 
     const isHomePage = location.pathname === '/';
-
-    // Генерация данных для BreadcrumbList
     const generateBreadcrumbSchema = () => {
         const pathnames = location.pathname.split('/').filter(x => x);
         const finalBreadcrumbList = [];
-
-        // Добавляем главную страницу как первый элемент
         finalBreadcrumbList.push({
             "@type": "ListItem",
             "position": 1,
@@ -71,7 +70,7 @@ const App: React.FC = () => {
             {!isHomePage && <JsonLdScript data={generateBreadcrumbSchema()} />}
             {isHomePage ? (
                 <div className={`container ${homePageStyles.homeContainer}`}>
-                    <Route path="/sitemap.xml" />
+                    
                     <Routes>
                         <Route path="/" element={<HomePage />} />
                     </Routes>
