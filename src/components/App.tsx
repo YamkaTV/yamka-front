@@ -10,6 +10,7 @@ import NotFoundPage from '../pages/NotFoundPage/NotFoundPage';
 import HeaderModule from '@components/header/Header.module';
 import FooterModule from '@components/footer/Footer.module';
 import TopProgressBar from '@components/ui/ProgressBar';
+import JsonLdScript from '@components/seo/JsonLdScript'; // Импорт JsonLdScript
 import homePageStyles from '../pages/HomePage/HomePage.module.scss';
 
 
@@ -18,9 +19,41 @@ const App: React.FC = () => {
 
     const isHomePage = location.pathname === '/';
 
+    // Генерация данных для BreadcrumbList
+    const generateBreadcrumbSchema = () => {
+        const pathnames = location.pathname.split('/').filter(x => x);
+        const breadcrumbListItems = pathnames.map((name, index) => {
+            const url = `https://yamka.tv/${pathnames.slice(0, index + 1).join('/')}`;
+            const item = {
+                "@type": "ListItem",
+                "position": index + 1,
+                "name": name.charAt(0).toUpperCase() + name.slice(1), // Простая капитализация
+                "item": url
+            };
+            return item;
+        });
+
+        // Добавляем главную страницу как первый элемент
+        const homeBreadcrumb = {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Главная",
+            "item": "https://yamka.tv/"
+        };
+
+        const finalBreadcrumbList = [homeBreadcrumb, ...breadcrumbListItems];
+
+        return {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": finalBreadcrumbList
+        };
+    };
+
     return (
         <>
             <TopProgressBar />
+            {!isHomePage && <JsonLdScript data={generateBreadcrumbSchema()} />} {/* Добавляем BreadcrumbList для всех страниц, кроме главной */}
             {isHomePage ? (
                 <div className={`container ${homePageStyles.homeContainer}`}>
                     <Routes>

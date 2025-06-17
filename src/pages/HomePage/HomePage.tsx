@@ -5,7 +5,7 @@ import SearchInput from '@components/search/SearchInput';
 import {Link} from "react-router-dom";
 import { seoPages } from '@components/seo/seoConfig';
 import SeoHead from '@components/seo/SeoHead';
-import JsonLdScript from '@components/seo/JsonLdScript'; // Импорт нового компонента
+import JsonLdScript from '@components/seo/JsonLdScript';
 import Styles from './HomePage.module.scss';
 
 const HomePage: React.FC = () => {
@@ -29,8 +29,9 @@ const HomePage: React.FC = () => {
                 title={seoPages.home.title}
                 description={seoPages.home.description}
                 noindex={seoPages.home.noindex}
+                canonicalUrl="https://yamka.tv/" // Добавлен канонический URL
             />
-            <JsonLdScript data={homePageSchema} /> {/* Использование нового компонента */}
+            <JsonLdScript data={homePageSchema} />
             <main className={homeContainer}>
                 <div className={bigLogo}>
                     <img src={BigLogo} alt="Логотип" width="654" height="536"/>

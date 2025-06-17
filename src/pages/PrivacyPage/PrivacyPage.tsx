@@ -1,7 +1,7 @@
 import React from 'react';
 import { seoPages } from '@components/seo/seoConfig';
 import SeoHead from '@components/seo/SeoHead';
-import JsonLdScript from '@components/seo/JsonLdScript'; // Импорт нового компонента
+import JsonLdScript from '@components/seo/JsonLdScript';
 import Block from '../../components/block/Block';
 
 const PrivacyPage: React.FC = () => {
@@ -19,8 +19,9 @@ const PrivacyPage: React.FC = () => {
                 title={seoPages.privacy.title}
                 description={seoPages.privacy.description}
                 noindex={seoPages.privacy.noindex}
+                canonicalUrl="https://yamka.tv/privacy" // Добавлен канонический URL
             />
-            <JsonLdScript data={privacySchema} /> {/* Использование нового компонента */}
+            <JsonLdScript data={privacySchema} />
             <Block>
                 <h2>Политика конфиденциальности</h2>
                 <p>Последнее обновление: 25.04.2025</p>

@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 import poster from '../../assets/poster.avif';
 import CustomSelect from '@components/selectors/Selectors.module';
 import { seoPages } from '@components/seo/seoConfig';
 import SeoHead from '@components/seo/SeoHead';
-import JsonLdScript from '@components/seo/JsonLdScript'; // Импорт нового компонента
+import JsonLdScript from '@components/seo/JsonLdScript';
 import styles from './AnimePage.module.scss';
 import Block from '../../components/block/Block';
 
@@ -46,6 +46,8 @@ interface HistoryEntry {
 
 const AnimePage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const navigate = useNavigate();
     const [animeData, setAnimeData] = useState<AnimeData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -67,44 +69,43 @@ const AnimePage: React.FC = () => {
     const titleLinkRef = useRef<HTMLAnchorElement>(null);
     const titleH1Ref = useRef<HTMLHeadingElement>(null);
 
+    // Вспомогательная функция для очистки строки
+    const cleanString = (str: string) => {
+        return str.replace(/Озвучка|Плеер/g, '').trim();
+    };
 
     const handleVoiceChange = (voice: string) => {
         setSelectedVoice(voice);
+        const newSearchParams = new URLSearchParams(searchParams);
+        newSearchParams.set('voice', cleanString(voice)); // Очищаем строку
 
         const firstPlayer = Object.keys(videoData?.[voice] || {})[0] || '';
+        newSearchParams.set('player', cleanString(firstPlayer)); // Очищаем строку
+
         const episodes = videoData?.[voice]?.[firstPlayer] || [];
         const firstEpisode = episodes[0]?.episode || '';
-        const iframe = episodes[0]?.iframe_url?.startsWith('http')
-            ? episodes[0]?.iframe_url
-            : 'https:' + episodes[0]?.iframe_url;
+        newSearchParams.set('episode', firstEpisode);
 
-        setSelectedPlayer(firstPlayer);
-        setSelectedEpisode(firstEpisode);
-        setSelectedIframeUrl(iframe || '');
+        setSearchParams(newSearchParams);
     };
 
     const handlePlayerChange = (player: string) => {
         setSelectedPlayer(player);
+        const newSearchParams = new URLSearchParams(searchParams);
+        newSearchParams.set('player', cleanString(player)); // Очищаем строку
 
         const episodes = videoData?.[selectedVoice]?.[player] || [];
         const firstEpisode = episodes[0]?.episode || '';
-        const iframe = episodes[0]?.iframe_url?.startsWith('http')
-            ? episodes[0]?.iframe_url
-            : 'https:' + episodes[0]?.iframe_url;
+        newSearchParams.set('episode', firstEpisode);
 
-        setSelectedEpisode(firstEpisode);
-        setSelectedIframeUrl(iframe || '');
+        setSearchParams(newSearchParams);
     };
 
     const handleEpisodeChange = (episode: string) => {
         setSelectedEpisode(episode);
-
-        const ep = videoData?.[selectedVoice]?.[selectedPlayer]?.find(e => e.episode === selectedEpisode);
-        const iframe = ep?.iframe_url?.startsWith('http')
-            ? ep.iframe_url
-            : 'https:' + ep?.iframe_url;
-
-        setSelectedIframeUrl(iframe || '');
+        const newSearchParams = new URLSearchParams(searchParams);
+        newSearchParams.set('episode', episode);
+        setSearchParams(newSearchParams);
     };
 
 
@@ -156,20 +157,70 @@ const AnimePage: React.FC = () => {
 
                     // Установка начальных значений для селекторов видео
                     if (videos && Object.keys(videos).length > 0) {
-                        const voices = Object.keys(videos);
-                        const defaultVoice = voices[0] || '';
-                        const players = defaultVoice ? Object.keys(videos[defaultVoice]) : [];
-                        const defaultPlayer = players[0] || '';
-                        const episodes = defaultVoice && defaultPlayer ? videos[defaultVoice][defaultPlayer] : [];
-                        const defaultEpisode = episodes[0]?.episode || '';
-                        const defaultIframeUrl = episodes[0]?.iframe_url?.startsWith('http')
-                            ? episodes[0]?.iframe_url
-                            : 'https:' + episodes[0]?.iframe_url;
+                        const urlVoice = searchParams.get('voice');
+                        const urlPlayer = searchParams.get('player');
+                        const urlEpisode = searchParams.get('episode');
+
+                        let defaultVoice = Object.keys(videos)[0] || '';
+                        let defaultPlayer = '';
+                        let defaultEpisode = '';
+                        let defaultIframeUrl = '';
+
+                        // Поиск озвучки
+                        if (urlVoice) {
+                            const foundVoice = Object.keys(videos).find(v => cleanString(v) === urlVoice);
+                            if (foundVoice) {
+                                defaultVoice = foundVoice;
+                            }
+                        }
+
+                        // Поиск плеера
+                        const playersForVoice = videos[defaultVoice] ? Object.keys(videos[defaultVoice]) : [];
+                        if (urlPlayer) {
+                            const foundPlayer = playersForVoice.find(p => cleanString(p) === urlPlayer);
+                            if (foundPlayer) {
+                                defaultPlayer = foundPlayer;
+                            } else {
+                                defaultPlayer = playersForVoice[0] || '';
+                            }
+                        } else {
+                            defaultPlayer = playersForVoice[0] || '';
+                        }
+
+                        // Поиск эпизода
+                        const episodesForPlayer = videos[defaultVoice]?.[defaultPlayer] || [];
+                        const episodeExists = episodesForPlayer.some(ep => ep.episode === urlEpisode);
+
+                        if (urlEpisode && episodeExists) {
+                            defaultEpisode = urlEpisode;
+                        } else {
+                            defaultEpisode = episodesForPlayer[0]?.episode || '';
+                        }
+
+                        const finalEpisode = episodesForPlayer.find(ep => ep.episode === defaultEpisode);
+                        defaultIframeUrl = finalEpisode?.iframe_url?.startsWith('http')
+                            ? finalEpisode.iframe_url
+                            : 'https:' + finalEpisode?.iframe_url;
+
 
                         setSelectedVoice(defaultVoice);
                         setSelectedPlayer(defaultPlayer);
                         setSelectedEpisode(defaultEpisode);
                         setSelectedIframeUrl(defaultIframeUrl || '');
+
+                        // Обновляем URL, если параметры не соответствуют текущим выбранным
+                        const currentVoiceParam = searchParams.get('voice');
+                        const currentPlayerParam = searchParams.get('player');
+                        const currentEpisodeParam = searchParams.get('episode');
+
+                        if (cleanString(defaultVoice) !== currentVoiceParam || cleanString(defaultPlayer) !== currentPlayerParam || defaultEpisode !== currentEpisodeParam) {
+                            const newSearchParams = new URLSearchParams();
+                            newSearchParams.set('voice', cleanString(defaultVoice));
+                            newSearchParams.set('player', cleanString(defaultPlayer));
+                            newSearchParams.set('episode', defaultEpisode);
+                            navigate(`?${newSearchParams.toString()}`, { replace: true });
+                        }
+
                     } else {
                          setVideoData(null); // Устанавливаем null, если видеоданные отсутствуют или пусты
                     }
@@ -184,7 +235,7 @@ const AnimePage: React.FC = () => {
 
             fetchData();
         }
-    }, [id]);
+    }, [id, searchParams, navigate]);
 
     useEffect(() => {
         if (videoData && selectedVoice && selectedPlayer && selectedEpisode) {
@@ -230,9 +281,28 @@ const AnimePage: React.FC = () => {
         setIsDescriptionExpanded(false); // Сбрасываем состояние развернутости при смене аниме
     }, [animeData]);
 
+    const generateEpisodeSchema = () => {
+        if (!videoData || !animeData) return [];
+
+        const episodeList: any[] = [];
+        Object.keys(videoData).forEach(voice => {
+            Object.keys(videoData[voice]).forEach(player => {
+                videoData[voice][player].forEach(episode => {
+                    episodeList.push({
+                        "@type": "TVEpisode",
+                        "episodeNumber": episode.episode,
+                        "name": `Эпизод ${episode.episode} (${cleanString(voice)}, ${cleanString(player)})`, // Очищаем строки
+                        "url": `https://yamka.tv/anime/${animeData.anime_url}?voice=${encodeURIComponent(cleanString(voice))}&player=${encodeURIComponent(cleanString(player))}&episode=${encodeURIComponent(episode.episode)}`
+                    });
+                });
+            });
+        });
+        return episodeList;
+    };
+
     const animeSchema = animeData ? {
         "@context": "https://schema.org",
-        "@type": "TVSeries",
+        "@type": "TVSeries", // Или "Movie", если это фильм
         "name": animeData.title,
         "description": animeData.description,
         "image": animeData.poster_url,
@@ -243,7 +313,8 @@ const AnimePage: React.FC = () => {
             "bestRating": "10",
             "worstRating": "0",
             "ratingCount": "1" // Заглушка, если нет реального количества оценок
-        }
+        },
+        "episode": generateEpisodeSchema()
     } : null;
 
 
@@ -262,8 +333,9 @@ const AnimePage: React.FC = () => {
                 title={animeData?.title ? seoPages.anime.title.replace('{animeTitle}', animeData.title) : seoPages.anime.title}
                 description={animeData?.description ? seoPages.anime.description.replace('{animeTitle}', animeData.title) : seoPages.anime.description}
                 noindex={seoPages.anime.noindex}
+                canonicalUrl={`https://yamka.tv/anime/${animeData.anime_url}`}
             />
-            {animeSchema && <JsonLdScript data={animeSchema} />} {/* Использование нового компонента */}
+            {animeSchema && <JsonLdScript data={animeSchema} />}
             <Block className={styles.animeBlock}>
                 <ins data-pm-b="728x90"></ins>
                 <img

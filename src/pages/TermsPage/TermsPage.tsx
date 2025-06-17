@@ -1,7 +1,7 @@
 import React from 'react';
 import { seoPages } from '@components/seo/seoConfig';
 import SeoHead from '@components/seo/SeoHead';
-import JsonLdScript from '@components/seo/JsonLdScript'; // Импорт нового компонента
+import JsonLdScript from '@components/seo/JsonLdScript';
 import Block from '../../components/block/Block';
 
 const TermsPage: React.FC = () => {
@@ -19,8 +19,9 @@ const TermsPage: React.FC = () => {
                 title={seoPages.terms.title}
                 description={seoPages.terms.description}
                 noindex={seoPages.terms.noindex}
+                canonicalUrl="https://yamka.tv/terms" // Добавлен канонический URL
             />
-            <JsonLdScript data={termsSchema} /> {/* Использование нового компонента */}
+            <JsonLdScript data={termsSchema} />
             <Block>
                 <h2>Условия использования</h2>
                 <p>Последнее обновление: 25.04.2025</p>

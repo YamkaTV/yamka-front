@@ -4,9 +4,10 @@ interface SeoHeadProps {
     title: string;
     description: string;
     noindex?: boolean;
+    canonicalUrl?: string; // Добавлен опциональный пропс для канонического URL
 }
 
-const SeoHead: React.FC<SeoHeadProps> = ({ title, description, noindex }) => {
+const SeoHead: React.FC<SeoHeadProps> = ({ title, description, noindex, canonicalUrl }) => {
     useEffect(() => {
         document.title = title;
 
@@ -30,7 +31,24 @@ const SeoHead: React.FC<SeoHeadProps> = ({ title, description, noindex }) => {
         } else {
             metaRobots.setAttribute('content', 'index, follow');
         }
-    }, [title, description, noindex]);
+
+        // Добавление/обновление канонического URL
+        let linkCanonical = document.querySelector('link[rel="canonical"]');
+        if (canonicalUrl) {
+            if (!linkCanonical) {
+                linkCanonical = document.createElement('link');
+                linkCanonical.setAttribute('rel', 'canonical');
+                document.head.appendChild(linkCanonical);
+            }
+            linkCanonical.setAttribute('href', canonicalUrl);
+        } else {
+            // Если canonicalUrl не передан, удаляем существующий тег link canonical
+            if (linkCanonical) {
+                document.head.removeChild(linkCanonical);
+            }
+        }
+
+    }, [title, description, noindex, canonicalUrl]); // Добавлен canonicalUrl в зависимости
 
     return null;
 };
