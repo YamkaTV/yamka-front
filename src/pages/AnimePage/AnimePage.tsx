@@ -61,18 +61,6 @@ const AnimePage: React.FC = () => {
         }
     }, []); // Зависимость от animeData убрана, так как данные приходят через пропсы
 
-    useEffect(() => {
-        const descEl = descElRef.current;
-        const DEFAULT_HEIGHT = 65;
-
-        if (descEl && descEl.scrollHeight > DEFAULT_HEIGHT + 5) {
-            setShowToggleBtn(true);
-        } else {
-            setShowToggleBtn(false);
-        }
-        setIsDescriptionExpanded(false);
-    }, []); // Зависимость от animeData убрана
-
     return (
         <AnimeDataLoader>
             {({
@@ -92,6 +80,18 @@ const AnimePage: React.FC = () => {
                 players,
                 episodes,
             }) => {
+                useEffect(() => {
+                    const descEl = descElRef.current;
+                    const DEFAULT_HEIGHT = 65;
+
+                    if (descEl && descEl.scrollHeight > DEFAULT_HEIGHT + 5) {
+                        setShowToggleBtn(true);
+                    } else {
+                        setShowToggleBtn(false);
+                    }
+                    setIsDescriptionExpanded(false);
+                }, [animeData]);
+
                 const generateEpisodeSchema = () => {
                     if (!videoData || !animeData) return [];
 
