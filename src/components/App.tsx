@@ -79,7 +79,7 @@ if (location.pathname === '/sitemap.xml') {
                 <div className="container">
                     <HeaderModule />
                     <Routes>
-                        <Route path="/anime/:id" element={<AnimePage />} />
+                        <Route path="/anime/:animeUrl" element={<AnimePage />} />
                         <Route path="/history" element={<HistoryPage />} />
                         <Route path="/privacy" element={<PrivacyPage />} />
                         <Route path="/search" element={<SearchPage />} />

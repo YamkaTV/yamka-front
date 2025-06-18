@@ -2,5 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /history
 Disallow: /search
+Disallow: /anime/*?*
+Disallow: /anime/*/[0-9]+
 
 Sitemap: https://yamka.tv/sitemap.xml
