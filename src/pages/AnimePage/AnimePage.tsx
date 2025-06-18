@@ -18,6 +18,7 @@ interface AnimeData {
     poster_url: string;
     status: string;
     viewing_order: any[];
+    status_block?: number;
 }
 
 interface VideoEpisode {
@@ -148,7 +149,7 @@ const AnimePage: React.FC = () => {
                             <ins data-pm-b="728x90"></ins>
                             <img
                                 src={animeData.poster_url || poster}
-                                className={`${styles.poster} ${isDescriptionExpanded && infoElRef.current && infoElRef.current.offsetHeight > 200 ? styles.rounded : ''}`}
+                                className={`${styles.poster} ${isDescriptionExpanded && infoElRef.current && infoElRef.current.offsetHeight > 200 ? styles.rounded : ''} ${animeData.status_block === 1 ? styles.blurred : ''}`}
                                 ref={posterElRef}
                                 alt="Постер аниме"
                             />
@@ -202,42 +203,50 @@ const AnimePage: React.FC = () => {
                             </div>
                         </Block>
 
-                        <Block className={styles.videoBlock}>
-                            {videoData && (
-                                <div className={styles.selectors}>
-                                    <CustomSelect
-                                        label="Озвучка"
-                                        options={voices}
-                                        value={selectedVoice}
-                                        onChange={handleVoiceChange}
-                                    />
-                                    <CustomSelect
-                                        label="Плеер"
-                                        options={players}
-                                        value={selectedPlayer}
-                                        onChange={handlePlayerChange}
-                                    />
-                                    <CustomSelect
-                                        label="Серия"
-                                        options={episodes}
-                                        value={selectedEpisode}
-                                        onChange={handleEpisodeChange}
-                                        prefix="Серия"
-                                    />
+                        {animeData.status_block === 1 ? (
+                            <Block className={styles.videoBlock}>
+                                <div className={styles.blockedMessage}>
+                                    Данное аниме заблокировано на территории Вашей страны. Страница только для ознакомления, просмотр недоступен!
                                 </div>
-                            )}
+                            </Block>
+                        ) : (
+                            <Block className={styles.videoBlock}>
+                                {videoData && (
+                                    <div className={styles.selectors}>
+                                        <CustomSelect
+                                            label="Озвучка"
+                                            options={voices}
+                                            value={selectedVoice}
+                                            onChange={handleVoiceChange}
+                                        />
+                                        <CustomSelect
+                                            label="Плеер"
+                                            options={players}
+                                            value={selectedPlayer}
+                                            onChange={handlePlayerChange}
+                                        />
+                                        <CustomSelect
+                                            label="Серия"
+                                            options={episodes}
+                                            value={selectedEpisode}
+                                            onChange={handleEpisodeChange}
+                                            prefix="Серия"
+                                        />
+                                    </div>
+                                )}
 
-                            {selectedIframeUrl && (
-                                <div className={styles.player}>
-                                    <iframe
-                                        src={selectedIframeUrl}
-                                        title="Anime Video"
-                                        allowFullScreen
-                                        style={{ border: 'none' }}
-                                    />
-                                </div>
-                            )}
-                        </Block>
+                                {selectedIframeUrl && (
+                                    <div className={styles.player}>
+                                        <iframe
+                                            src={selectedIframeUrl}
+                                            title="Anime Video"
+                                            allowFullScreen
+                                            style={{ border: 'none' }}
+                                        />
+                                    </div>
+                                )}
+                            </Block>
+                        )}
                     </main>
                 );
             }}

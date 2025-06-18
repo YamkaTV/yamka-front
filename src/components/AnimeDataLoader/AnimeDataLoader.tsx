@@ -10,6 +10,7 @@ interface AnimeData {
     poster_url: string;
     status: string;
     viewing_order: any[];
+    status_block?: number;
 }
 
 interface VideoEpisode {
