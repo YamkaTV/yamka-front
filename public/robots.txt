@@ -4,5 +4,6 @@ Disallow: /history
 Disallow: /search
 Disallow: /anime/*?*
 Disallow: /anime/*/[0-9]+
+Disallow: /images/NoVideo.png
 
 Sitemap: https://yamka.tv/sitemap.xml
