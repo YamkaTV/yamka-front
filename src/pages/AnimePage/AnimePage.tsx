@@ -8,6 +8,7 @@ import JsonLdScript from '@components/seo/JsonLdScript';
 import styles from './AnimePage.module.scss';
 import Block from '../../components/block/Block';
 import AnimeDataLoader from '../../components/AnimeDataLoader/AnimeDataLoader';
+import AdBlock from '@components/adblock/AdBlock';
 
 interface AnimeData {
     anime_url: string;
@@ -204,48 +205,54 @@ const AnimePage: React.FC = () => {
                         </Block>
 
                         {animeData.status_block === 1 ? (
-                            <Block className={styles.videoBlock}>
-                                <div className={styles.blockedMessage}>
-                                    Данное аниме заблокировано на территории Вашей страны. Страница только для ознакомления, просмотр недоступен!
-                                </div>
-                            </Block>
+                            <>
+                                <Block className={styles.videoBlock}>
+                                    <div className={styles.blockedMessage}>
+                                        Данное аниме заблокировано на территории Вашей страны. Страница только для ознакомления, просмотр недоступен!
+                                    </div>
+                                </Block>
+                            </>
                         ) : (
-                            <Block className={styles.videoBlock}>
-                                {videoData && (
-                                    <div className={styles.selectors}>
-                                        <CustomSelect
-                                            label="Озвучка"
-                                            options={voices}
-                                            value={selectedVoice}
-                                            onChange={handleVoiceChange}
-                                        />
-                                        <CustomSelect
-                                            label="Плеер"
-                                            options={players}
-                                            value={selectedPlayer}
-                                            onChange={handlePlayerChange}
-                                        />
-                                        <CustomSelect
-                                            label="Серия"
-                                            options={episodes}
-                                            value={selectedEpisode}
-                                            onChange={handleEpisodeChange}
-                                            prefix="Серия"
-                                        />
-                                    </div>
-                                )}
+                            <>
+                                <AdBlock />
+                                <Block className={styles.videoBlock}>
+                                    {videoData && (
+                                        <div className={styles.selectors}>
+                                            <CustomSelect
+                                                label="Озвучка"
+                                                options={voices}
+                                                value={selectedVoice}
+                                                onChange={handleVoiceChange}
+                                            />
+                                            <CustomSelect
+                                                label="Плеер"
+                                                options={players}
+                                                value={selectedPlayer}
+                                                onChange={handlePlayerChange}
+                                            />
+                                            <CustomSelect
+                                                label="Серия"
+                                                options={episodes}
+                                                value={selectedEpisode}
+                                                onChange={handleEpisodeChange}
+                                                prefix="Серия"
+                                            />
+                                        </div>
+                                    )}
 
-                                {selectedIframeUrl && (
-                                    <div className={styles.player}>
-                                        <iframe
-                                            src={selectedIframeUrl}
-                                            title="Anime Video"
-                                            allowFullScreen
-                                            style={{ border: 'none' }}
-                                        />
-                                    </div>
-                                )}
-                            </Block>
+                                    {selectedIframeUrl && (
+                                        <div className={styles.player}>
+                                            <iframe
+                                                src={selectedIframeUrl}
+                                                title="Anime Video"
+                                                allowFullScreen
+                                                style={{ border: 'none' }}
+                                            />
+                                        </div>
+                                    )}
+                                </Block>
+                                <AdBlock />
+                            </>
                         )}
                     </main>
                 );
